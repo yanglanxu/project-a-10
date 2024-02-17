@@ -31,7 +31,7 @@ if not IS_HEROKU_APP:
     DEBUG = True
 
 if IS_HEROKU_APP:
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = ['*']
 else:
     ALLOWED_HOSTS = []
 
@@ -137,3 +137,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    if 'HEROKU' in os.environ:
+        import django_heroku
+        django_heroku.settings(locals())
+except ImportError:
+    found = False
