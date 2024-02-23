@@ -117,11 +117,11 @@ DATABASES = {
     }
 }
 if IS_HEROKU_APP:
-    DATABASES = dj_database_url.config(
+    DATABASES = {"default":dj_database_url.config(
             conn_max_age=600,
             conn_health_checks=True,
             ssl_require=True,
-        )
+        )}
 
 
 # Password validation
