@@ -4,3 +4,4 @@ dj-database-url
 django-heroku
 whitenoise
 django-allauth
+python-dotenv
