@@ -55,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'a10project.urls'
@@ -143,3 +145,5 @@ try:
         django_heroku.settings(locals())
 except ImportError:
     found = False
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
