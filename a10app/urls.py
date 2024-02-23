@@ -4,5 +4,6 @@ from . import views
 
 app_name = "a10app"
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", views.index),
+    path("logout", views.logout),
 ]
