@@ -7,10 +7,9 @@
 <body>
     {% load socialaccount %}
     <a href="{% provider_login_url 'google' %}">Login with Google</a>
-
+<!--?next='-->
     {% if user.is_authenticated %}
-    <meta http-equiv = "refresh" content = "0; url = {% url 'a10project:results' user %}" />
-<!--    <p>You are signed in as {{user.username}}</p>-->
+    <p>You are signed in as {{user.username}}</p>
     {% endif %}
 </body>
 </html>
