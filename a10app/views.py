@@ -11,6 +11,6 @@ def welcome(request, username):
     return render(request, "welcome.html", {"username": username})
 
 
-def logout(request):
+def logout_view(request):
     logout(request)
     return redirect("/")
