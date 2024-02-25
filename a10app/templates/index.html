@@ -11,5 +11,9 @@
     {% if user.is_authenticated %}
     <p>You are signed in as {{user.username}}</p>
     {% endif %}
+
+    {% if user.is_superuser %}
+    <p>You are an admin, {{user.username}}!</p>
+    {% endif %}
 </body>
 </html>
