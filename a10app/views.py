@@ -7,8 +7,8 @@ def index(request):
     return render(request, "index.html")
 
 
-def login(request, user):
-    return render(request, "loggedin.html", {"user": user})
+def welcome(request, username):
+    return render(request, "welcome.html", {"user": username})
 
 
 def logout(request):

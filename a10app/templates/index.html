@@ -6,7 +6,7 @@
 </head>
 <body>
     {% load socialaccount %}
-    <a href="{% provider_login_url 'google' %}">Login with Google</a>
+    <a href="{% provider_login_url 'google' %}?next=/{{user.username}}/welcome/">Login with Google</a>
 <!--?next='-->
     {% if user.is_authenticated %}
     <p>You are signed in as {{user.username}}</p>

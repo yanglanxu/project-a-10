@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include("a10app.urls")),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    # path("<user:logged_in_user>/login/", views.login, name="login"),
+    path("<str:username>/welcome/", views.welcome, name="welcome"),
 ]
