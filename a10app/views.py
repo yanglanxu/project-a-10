@@ -8,7 +8,7 @@ def index(request):
 
 
 def login(request, user):
-    return HttpResponseRedirect(reverse("polls:results", args=(user,)))
+    return render(request, "loggedin.html", {"user": user})
 
 
 def logout(request):
