@@ -8,7 +8,7 @@ def index(request):
 
 
 def welcome(request, username):
-    return render(request, "welcome.html", {"user": username})
+    return render(request, "welcome.html", {"username": username})
 
 
 def logout(request):
