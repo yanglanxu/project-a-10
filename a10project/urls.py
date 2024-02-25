@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path("<str:username>/welcome/", views.welcome, name="welcome"),
-    path("logout/", views.logout_view, name="logout")
+    path("logout/", views.logout_view, name="logout"),
+    path('check/', views.check, name="welcome")
 ]
