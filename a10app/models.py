@@ -15,5 +15,5 @@ class Report(models.Model):
     text = models.TextField(blank=True, max_length=2000)
 
 class ReportFile(models.Model):
-    file = models.FileField(upload_to="media")
+    file = models.FileField(upload_to="media/")
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
