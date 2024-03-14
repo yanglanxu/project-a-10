@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Users(models.Model):
+class User(models.Model):
     userName = models.CharField(max_length=300, verbose_name='username')
     email = models.CharField(max_length=500, verbose_name='email')
     is_superuser = models.BooleanField()
@@ -16,4 +16,4 @@ class Report(models.Model):
 
 class ReportFile(models.Model):
     file = models.FileField(upload_to="media")
-    feed = models.ForeignKey(Report, on_delete=models.SET_NULL)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)

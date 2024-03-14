@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Users
+from .models import User
 
 
 def index(request):
