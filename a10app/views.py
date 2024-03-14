@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.views.generic.edit import FormView
+from .forms import ReportForm
 from .models import User
 
 
@@ -40,3 +42,13 @@ def isAdmin(request):
     # else:
     #     return render(request, "welcome.html", {"username": user.username})
     return render(request, "welcome.html")
+
+class ReportFormView(FormView):
+    template_name = "report.html"
+    form_class = ReportForm
+    success_url = ""
+
+
+def submit(request):
+    return render(request, "welcome.html")
+
