@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic.edit import FormView
 from .forms import ReportForm
-from .models import User
+from .models import User, Report, ReportFile
 
 
 def index(request):
@@ -13,7 +13,7 @@ def index(request):
     return render(request, "index.html")
 
 
-def welcome(request, username):
+def welcome(request):
     # user = get_object_or_404(Users, userName=username)
     # print(user.email)
     if request.user.is_superuser:
@@ -44,11 +44,23 @@ def isAdmin(request):
     return render(request, "welcome.html")
 
 class ReportFormView(FormView):
-    template_name = "report.html"
     form_class = ReportForm
-    success_url = ""
+    template_name = "report.html"  # Replace with your template.
+    success_url = "welcome"  # Replace with your URL or reverse().
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        files = form.cleaned_data["files"]
+        return super().form_valid(form)
 
 
 def submit(request):
-    return render(request, "welcome.html")
+    return render(request, "name.html", {"form": form})
 
