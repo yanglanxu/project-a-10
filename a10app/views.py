@@ -57,7 +57,14 @@ class ReportFormView(FormView):
             return self.form_invalid(form)
 
     def form_valid(self, form):
+        report = Report()
+        report.title = form.cleaned_data["title"]
+        report.text = form.cleaned_data["text"]
+        report.save()
         files = form.cleaned_data["files"]
+        for f in files:
+            new_upload = ReportFile(report=report, file=f)
+            new_upload.save()
         return super().form_valid(form)
 
 
