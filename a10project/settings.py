@@ -38,7 +38,7 @@ if IS_HEROKU_APP:
 else:
     ALLOWED_HOSTS = []
 SITE_ID = 2
-LOGIN_REDIRECT_URL = "/check/"
+LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 # Application definition
 
