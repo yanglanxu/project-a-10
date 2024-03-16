@@ -33,6 +33,7 @@ class ReportFormView(FormView):
         report = Report()
         report.title = form.cleaned_data["title"]
         report.text = form.cleaned_data["text"]
+        report.urgency = form.cleaned_data["urgency"]
         report.save()
         files = form.cleaned_data["files"]
         for f in files:
