@@ -67,7 +67,3 @@ class ReportFormView(FormView):
             new_upload.save()
         return super().form_valid(form)
 
-
-def submit(request):
-    return render(request, "name.html", {"form": form})
-
