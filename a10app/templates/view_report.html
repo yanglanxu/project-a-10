@@ -7,12 +7,12 @@
 </head>
 <body>
     <h1>Full Report</h1>
-    <p>Title: {{ full_report.title }}</p>
-    <p>Text: {{ full_report.text }}</p>
+    <p>Title: {{ report.title }}</p>
+    <p>Text: {{ report.text }}</p>
 
     <!-- Voting Section -->
     <h2>Vote</h2>
-    <form action="{% url 'vote_report' full_report.id %}" method="POST">
+    <form action="{% url 'vote_report' report.id %}" method="POST">
         {% csrf_token %}
         <label for="vote">Vote:</label>
         <select name="vote" id="vote">
@@ -27,13 +27,21 @@
     <button id="showCommentBtn" onclick="showComments()">Show Comments</button>
     <div id="commentsSection" style="display: none;">
         <h3>Add Comment</h3>
-        <form action="{% url 'add_comment' full_report.id %}" method="POST">
+        <form action="{% url 'add_comment' report.id %}" method="POST">
             {% csrf_token %}
             <label for="comment">Comment:</label>
             <textarea name="comment" id="comment" cols="30" rows="5"></textarea>
             <button type="submit">Submit Comment</button>
         </form>
     </div>
+
+    <!-- Files Section -->
+    <h2>Files</h2>
+    <ul>
+        {% for file in report.files.all %}
+            <li><a href="{{ file.file.url }}">{{ file.file.name }}</a></li>
+        {% endfor %}
+    </ul>
 
     <script>
         function showComments() {
