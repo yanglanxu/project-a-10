@@ -6,13 +6,14 @@
 </head>
 <body>
     {% load socialaccount %}
+    {% load auth_extras %}
     <a href="{% provider_login_url 'google' %}?next=/{{user.username}}}/welcome/">Login with Google</a>
 
     {% if user.is_authenticated %}
     <p>You are signed in as {{user.username}}</p>
     {% endif %}
 
-    {% if user.is_superuser %}
+    {% if request.user|has_group:"site_admin" %}
     <p>You are an admin, {{user.username}}!</p>
     {% endif %}
 </body>
