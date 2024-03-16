@@ -5,3 +5,5 @@ django-heroku
 whitenoise
 django-allauth
 python-dotenv
+django-storages
+boto3
