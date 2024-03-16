@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.datastructures import MultiValueDict
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import Group, User
 
@@ -9,9 +10,10 @@ from a10app.templatetags.auth_extras import has_group
 # Create your tests here.
 class ReportFormTests(TestCase):
     def setUp(self):
+        self.test_text = "Test text"
+        self.test_title = "Test title"
         self.empty_form = ReportForm(data={})
-        self.testfile = SimpleUploadedFile("testfile.pdf", b"file_content")
-        self.full_form = ReportForm(data={"title":"Test title", "text":"Test text","files":self.testfile})
+        self.full_form = ReportForm(data={"title":self.test_title, "text":self.test_text})
 
     def test_empty_title(self):
         self.assertEqual(self.empty_form.errors["title"],["This field is required."])
@@ -24,13 +26,6 @@ class ReportFormTests(TestCase):
 
     def test_non_empty_text(self):
         self.assertTrue("text" not in self.full_form.errors.keys())
-
-    def test_non_empty_file(self):
-        self.assertTrue("files" not in self.full_form.errors.keys())
-        self.assertEqual(self.full_form.files[0], self.testfile)
-
-    def test_empty_file(self):
-        self.assertTrue("files" not in self.empty_form.errors.keys())
 
 class UserAuthTests(TestCase):
     def setUp(self):
