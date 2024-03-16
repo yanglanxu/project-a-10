@@ -16,5 +16,6 @@
     {% if request.user|has_group:"site_admin" %}
     <p>You are an admin, {{user.username}}!</p>
     {% endif %}
+    <a href="{% url 'logout'%}">Logout?</a>
 </body>
 </html>
