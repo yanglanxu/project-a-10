@@ -8,38 +8,32 @@ from a10app.templatetags.auth_extras import has_group
 
 # Create your tests here.
 class ReportFormTests(TestCase):
-    def test_empty_title(self):
-        form = ReportForm(data={})
+    def setUp(self):
+        self.empty_form = ReportForm(data={})
+        self.testfile = SimpleUploadedFile("testfile.pdf", b"file_content")
+        self.full_form = ReportForm(data={"title":"Test title", "text":"Test text","files":self.testfile})
 
-        self.assertEqual(form.errors["title"],["This field is required."])
+    def test_empty_title(self):
+        self.assertEqual(self.empty_form.errors["title"],["This field is required."])
 
     def test_non_empty_title(self):
-        form = ReportForm(data={"title":"Test Title"})
-
-        self.assertTrue("title" not in form.errors.keys())
+        self.assertTrue("title" not in self.full_form.errors.keys())
 
     def test_empty_text(self):
-        form = ReportForm(data={})
-
-        self.assertTrue("text" not in form.errors.keys())
+        self.assertTrue("text" not in self.empty_form.errors.keys())
 
     def test_non_empty_text(self):
-        form = ReportForm(data={"text": "Test Text"})
-
-        self.assertTrue("text" not in form.errors.keys())
+        self.assertTrue("text" not in self.full_form.errors.keys())
 
     def test_non_empty_file(self):
-        testfile = SimpleUploadedFile("testfile.pdf", b"file_content")
-        form = ReportForm(data={"files": testfile})
-        self.assertTrue("files" not in form.errors.keys())
+        self.assertTrue("files" not in self.full_form.errors.keys())
+        self.assertEqual(self.full_form.files[0], self.testfile)
 
     def test_empty_file(self):
-        form = ReportForm(data={})
-        self.assertTrue("files" not in form.errors.keys())
+        self.assertTrue("files" not in self.empty_form.errors.keys())
 
 class UserAuthTests(TestCase):
     def setUp(self):
-        # create permissions group
         self.group_name = "My Test Group"
         self.group = Group(name=self.group_name)
         self.group.save()
