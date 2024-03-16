@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page - All Reports</title>
+</head>
+<body>
+    <h1>Main Page - All Reports for the Past 24 Hours</h1>
+
+    <!-- List of Reports -->
+    <div id="reportsList">
+        {% for report in reports %}
+            <div class="report">
+                <h2><a href="{% url 'view_report' report.id %}">{{ report.title }}</a></h2>
+                <p>{{ report.summary }}</p>
+                {% if user.is_superuser %}
+                    <form action="{% url 'mark_reviewed' report.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Mark as Reviewed">
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination or Scroll -->
+    <!-- Add pagination or scrolling functionality here later -->
+
+</body>
+</html>
