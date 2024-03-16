@@ -209,3 +209,4 @@ else:
 
 
 
+LOGIN_REDIRECT_URL = '/redirect-to-report/'
