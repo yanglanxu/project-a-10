@@ -16,15 +16,6 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
-def isAdmin(request):
-    # user = get_object_or_404(Users, userName=username)
-    # if user.is_superuser:
-    #     print("got in here woo")
-    #     return render(request, "admin-welcome.html", {"username": user.username})
-    # else:
-    #     return render(request, "welcome.html", {"username": user.username})
-    return render(request, "welcome.html")
-
 class ReportFormView(FormView):
     form_class = ReportForm
     template_name = "report.html"  # Replace with your template.
