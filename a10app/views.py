@@ -67,6 +67,9 @@ class ReportFormView(FormView):
             new_upload.save()
         return super().form_valid(form)
 
+def ReportListView(request):
+    reports = Report.objects.all()
+    return render(request, "reports/report_list.html", {"reports" : reports})
 
 def submit(request):
     return render(request, "name.html", {"form": form})

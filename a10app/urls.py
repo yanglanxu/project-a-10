@@ -10,4 +10,5 @@ urlpatterns = [
     path("logout", views.logout),
     path("report", views.ReportFormView.as_view()),
     # path("welcome", views.isAdmin)
+    path("listreports", views.report_list)
 ]
