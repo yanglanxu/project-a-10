@@ -19,7 +19,7 @@ def logout_view(request):
 class ReportFormView(FormView):
     form_class = ReportForm
     template_name = "report.html"  # Replace with your template.
-    success_url = ""  # Replace with your URL or reverse().
+    success_url = "/"  # Replace with your URL or reverse().
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -27,6 +27,7 @@ class ReportFormView(FormView):
         if form.is_valid():
             return self.form_valid(form)
         else:
+            print(form.errors["title"])
             return self.form_invalid(form)
 
     def form_valid(self, form):
