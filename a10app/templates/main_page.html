@@ -6,35 +6,109 @@
     <title>Main Page - All Reports</title>
 
     <style>
-        body {
+        body{
+            --accent_color: #1b4d89;
+            min-width: 1450px;
+        }
+        .header{
             background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 50px;
         }
         .title{
-            color: #2b6777;
+            color: var(--accent_color);
+            display: inline-block;
+            margin-right: 50%;
         }
         .report-box {
             border: 2px solid #ccc;
             border-radius: 10px;
             padding: 20px;
-            width: 300px; /* Adjust as needed */
+            width: 40%;
             margin: 0 auto;
             text-align: center;
             background-color: #c8d8e4;
         }
         .report-title {
-            font-size: 24px; /* Adjust as needed */
+            font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
-            color: #2b6777;
+            color: var(--accent_color);
+        }
+        .login_button{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .logout_button{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
         }
         .report-text {
-            font-size: 16px; /* Adjust as needed */
-            color: #2b6777;
+            font-size: 16px;
+            color: var(--accent_color);
+        }
+        .report-username {
+            font-size: 16px;
+            color: var(--accent_color);
+        }
+        .button_position{
+            position: relative;
+        }
+        .create_report_button{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        .reports_list{
+            color: var(--accent_color);
+            margin: auto;
+            font-size: 25px;
+            font-weight: bold;
+            width: 25%;
+            text-align: center;
+            border-bottom: solid;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <h1 class="title">Hazing Reporting Website</h1>
+    <div class="header">
+        <h1 class="title">Hazing Reporting Website</h1>
+        {% if not user.is_authenticated %}
+        {% load socialaccount %}
+        {% load auth_extras %}
+        <a class="login_button" href="{% provider_login_url 'google' %}?next=/">Login with Google</a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <a class="logout_button" href="{% url 'logout'%}">You are signed in as {{user.username}}. Logout?</a>
+        {% endif %}
+
+        {% if request.user|has_group:"site_admin" %}
+        <p>You are an admin, {{user.username}}!</p>
+        {% endif %}
+    </div>
+    <div class="button_position">
+        <button class="create_report_button"> Create New Report </button>
+    </div>
+    <div class="reports_list">List of Current Reports</div>
+
     {% if reports %}
         {% for report in reports %}
             <div class="report-box">
@@ -50,18 +124,6 @@
 
     <br>
     <br>
-    {% load socialaccount %}
-    {% load auth_extras %}
-    <a href="{% provider_login_url 'google' %}?next=/">Login with Google</a>
-
-    {% if user.is_authenticated %}
-    <p>You are signed in as {{user.username}}</p>
-    <a href="{% url 'logout'%}">Logout?</a>
-    {% endif %}
-
-    {% if request.user|has_group:"site_admin" %}
-    <p>You are an admin, {{user.username}}!</p>
-    {% endif %}
 
     <!-- Pagination or Scroll -->
     <!-- Add pagination or scrolling functionality here later -->
