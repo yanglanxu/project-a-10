@@ -49,3 +49,8 @@ def report_list(request):
     print(reports)
     return render(request, "report_list.html", {"reports" : reports})
 
+def view_report(request, report_id):
+    report = Report.objects.get(id=report_id)
+    files = ReportFile.objects.filter(report=report)
+    return render(request, "view_report.html", {"report" : report, "files" : files})
+
