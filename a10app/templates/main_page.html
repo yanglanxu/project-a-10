@@ -74,6 +74,7 @@
             padding: 20px;
             font-size: 15px;
             margin-bottom: 10px;
+            text-decoration: none;
         }
         .reports_list{
             color: var(--accent_color);
@@ -105,22 +106,33 @@
         {% endif %}
     </div>
     <div class="button_position">
-        <button class="create_report_button"> Create New Report </button>
+        <a class="create_report_button" href="{% url 'logout'%}">Create New Report</a>
     </div>
+<!--    <script>-->
+<!--        create_report = document.getElementsByClassName("create_report_button")-->
+<!--        create_report.onclick = function(){-->
+<!--            -->
+<!--        };-->
+<!--    </script>-->
     <div class="reports_list">List of Current Reports</div>
 
     {% if reports %}
         {% for report in reports %}
-            <div class="report-box">
+            <button class="report-box" onclick="goToReport({ report.id })">
                 <div class="report-title">{{ report.title }}</div>
                 <div class="report-username">{{ report.user.username }}</div>
                 <div class="report-text">{{ report.text }}</div>
-            </div>
+            </button>
 <!--            <li>{{ report.title }} - {{ report.user.username }} - {{ report.text }}</li>-->
         {% endfor %}
     {% else %}
                 <p>No reports have been made.</p>
     {% endif %}
+    <script>
+        goToReport = function(report_id){
+            window.location.href = "{% url 'a10app:view_report' report_id %}";
+        };
+    </script>
 
     <br>
     <br>
