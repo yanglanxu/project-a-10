@@ -3,40 +3,58 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Users
+from django.views.generic.edit import FormView
+from .forms import ReportForm
+from .models import User, Report, ReportFile
 
 
 def index(request):
     # print("why am I in here booo")
+
     return render(request, "index.html")
 
-
-def welcome(request, username):
-    # user = get_object_or_404(Users, userName=username)
-    # print(user.email)
-    if request.user.is_superuser:
-        # print("got in here woo")
-        return render(request, "admin-welcome.html", {"username": request.user.username})
-    else:
-        return render(request, "welcome.html", {"username": request.user.username})
-    # return render(request, "welcome.html", {"username": username})
-
-def check(request):
-    if request.user.is_superuser:
-        # print("got in here woo")
-        return render(request, "admin-welcome.html", {"username": request.user.username})
-    else:
-        return render(request, "welcome.html", {"username": request.user.username})
+def main_page(request):
+    return render(request, "main_page.html", {"reports": Report.objects.all()})
 
 def logout_view(request):
     logout(request)
     return redirect("/")
 
-def isAdmin(request):
-    # user = get_object_or_404(Users, userName=username)
-    # if user.is_superuser:
-    #     print("got in here woo")
-    #     return render(request, "admin-welcome.html", {"username": user.username})
-    # else:
-    #     return render(request, "welcome.html", {"username": user.username})
-    return render(request, "welcome.html")
+def redirect_to_report(request):
+    return redirect('/report')
+
+class ReportFormView(FormView):
+    form_class = ReportForm
+    template_name = "report.html"  # Replace with your template.
+    success_url = "/"  # Replace with your URL or reverse().
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        report = Report()
+        report.title = form.cleaned_data["title"]
+        report.text = form.cleaned_data["text"]
+        report.urgency = form.cleaned_data["urgency"]
+        report.save()
+        files = form.cleaned_data["files"]
+        for f in files:
+            new_upload = ReportFile(report=report, file=f)
+            new_upload.save()
+        return super().form_valid(form)
+
+def report_list(request):
+    reports = Report.objects.all()
+    print(reports)
+    return render(request, "report_list.html", {"reports" : reports})
+
+def view_report(request, report_id):
+    report = Report.objects.get(id=report_id)
+    files = ReportFile.objects.filter(report=report)
+    return render(request, "view_report.html", {"report" : report, "files" : files})
+

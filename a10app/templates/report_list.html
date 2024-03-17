@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report List</title>
+</head>
+<body>
+    <h1>Report List</h1>
+    {% if reports %}
+        {% for report in reports %}
+            <li><a href="{% url 'a10app:view_report' report.id %}">Report Title:{{ report.title }}</a> - User: {{ report.user.username }} - Text: {{ report.text }}</li>
+        {% endfor %}
+    {% else %}
+                <p>No reports have been made.</p>
+    {% endif %}
+    <u1>
+    </u1>
+</body>
+</html>

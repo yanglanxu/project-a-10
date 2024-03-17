@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Full Report</title>
+</head>
+<body>
+    <h1>Full Report</h1>
+    <p>Title: {{ report.title }}</p>
+    <p>Text: {{ report.text }}</p>
+
+
+    <!-- Files Section -->
+    <h2>Files</h2>
+    <ul>
+        {% for file in files %}
+            <li>
+                <embed
+                    src="{{file.file.url}}"
+                    type="application/pdf"
+                    frameBorder="0"
+                    scrolling="auto"
+                    height="500px"
+                    width="75%"
+                >
+            </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function showComments() {
+            var commentsSection = document.getElementById('commentsSection');
+            commentsSection.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
