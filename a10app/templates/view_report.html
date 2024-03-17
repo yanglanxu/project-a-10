@@ -4,8 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Full Report</title>
+
+    <style>
+        .mark_reviewed{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .button_position{
+            position: relative;
+        }
+    </style>
+
+    
 </head>
 <body>
+    {% load auth_extras %}
     <h1>Full Report</h1>
     <p>Title: {{ report.title }}</p>
     <p>Text: {{ report.text }}</p>
@@ -26,6 +45,7 @@
                 >
             </li>
         {% endfor %}
+
     </ul>
 
     <script>
@@ -34,5 +54,14 @@
             commentsSection.style.display = 'block';
         }
     </script>
+
+    {% if request.user|has_group:"site_admin" %}
+        <div class="button_position">
+            <a class=".mark_reviewed" href="{% url 'a10app:mark_report_as_reviewed' report.id%}">Mark As Reviewed</a>
+        </div>
+            
+    {% endif %}
+
+
 </body>
 </html>

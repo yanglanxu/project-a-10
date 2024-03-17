@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic.edit import FormView
 from .forms import ReportForm
 from .models import User, Report, ReportFile
+from django.views.decorators.http import require_POST
 
 
 def index(request):
@@ -41,6 +42,7 @@ class ReportFormView(FormView):
         report.title = form.cleaned_data["title"]
         report.text = form.cleaned_data["text"]
         report.urgency = form.cleaned_data["urgency"]
+        # report.reviewed = False
         report.save()
         files = form.cleaned_data["files"]
         for f in files:
@@ -55,6 +57,20 @@ def report_list(request):
 
 def view_report(request, report_id):
     report = Report.objects.get(id=report_id)
+    print(report.reviewed)
     files = ReportFile.objects.filter(report=report)
     return render(request, "view_report.html", {"report" : report, "files" : files})
 
+def review_report(request, report_id):
+    report = Report.objects.get(id=report_id)
+    files = ReportFile.objects.filter(report=report)
+    return render(request, "view_report.html", {"report" : report, "files" : files})
+
+def mark_report_as_reviewed(request, report_id):
+    report = Report.objects.get(id=report_id)
+    report.reviewed = True
+
+    report.save()
+
+    
+    return render(request, "report_list.html", {"reports" : Report.objects.all()})

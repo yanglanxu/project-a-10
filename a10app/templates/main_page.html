@@ -47,6 +47,16 @@
             margin-bottom: 10px;
             text-decoration: none;
         }
+        .see_all_reports{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
         .logout_button{
             background-color: var(--accent_color);
             color: white;
@@ -96,6 +106,7 @@
         {% if not user.is_authenticated %}
         {% load socialaccount %}
         {% load auth_extras %}
+
         <a class="login_button" href="{% provider_login_url 'google' %}?next=/">Login with Google</a>
         {% endif %}
 
@@ -103,12 +114,16 @@
         <a class="logout_button" href="{% url 'logout'%}">You are signed in as {{user.username}}. Logout?</a>
         {% endif %}
 
+
         {% if request.user|has_group:"site_admin" %}
         <p>You are an admin, {{user.username}}!</p>
         {% endif %}
     </div>
     <div class="button_position">
         <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
+        {% if request.user|has_group:"site_admin" %}
+        <a class="see_all_reports" href="{% url 'a10app:list_reports'%}">See All Reports</a>
+        {% endif %}
     </div>
     <div class="reports_list">List of Current Reports</div>
 
@@ -119,13 +134,24 @@
 <!--                <div class="report-username">{{ report.user.username }}</div>-->
 <!--                <div class="report-text">{{ report.text }}</div>-->
 <!--            </div>-->
-                <div class="report-box">
-                    <a href="{% url 'a10app:view_report' report.id %}">
-                        <div class="report-title">{{ report.title }}</div>
-                        <div class="report-username">{{ report.user.username }}</div>
-                        <div class="report-text">{{ report.text }}</div>
-                    </a>
-                </div>
+
+                {% comment %} console.log(report.reviewed) {% endcomment %}
+                {% comment %} <script>
+                    console.log('testing');
+                </script> {% endcomment %}
+
+                {% if report.reviewed %} {
+                    <div class="report-box">
+                        <a href="{% url 'a10app:view_report' report.id %}">
+                            <div class="report-title">{{ report.title }}</div>
+                            <div class="report-username">{{ report.user.username }}</div>
+                            <div class="report-text">{{ report.text }}</div>
+                        </a>
+                    </div>
+                }
+            
+                {% endif %}
+                
         {% endfor %}
     {% else %}
                 <p>No reports have been made.</p>
