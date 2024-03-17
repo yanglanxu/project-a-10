@@ -12,41 +12,17 @@ def index(request):
     # print("why am I in here booo")
     return render(request, "index.html")
 
-
-def welcome(request):
-    # user = get_object_or_404(Users, userName=username)
-    # print(user.email)
-    if request.user.is_superuser:
-        # print("got in here woo")
-        return render(request, "admin-welcome.html", {"username": request.user.username})
-    else:
-        return render(request, "welcome.html", {"username": request.user.username})
-    # return render(request, "welcome.html", {"username": username})
-
-def check(request):
-    if request.user.is_superuser:
-        # print("got in here woo")
-        return render(request, "admin-welcome.html", {"username": request.user.username})
-    else:
-        return render(request, "welcome.html", {"username": request.user.username})
-
 def logout_view(request):
     logout(request)
     return redirect("/")
 
-def isAdmin(request):
-    # user = get_object_or_404(Users, userName=username)
-    # if user.is_superuser:
-    #     print("got in here woo")
-    #     return render(request, "admin-welcome.html", {"username": user.username})
-    # else:
-    #     return render(request, "welcome.html", {"username": user.username})
-    return render(request, "welcome.html")
+def redirect_to_report(request):
+    return redirect('/report')
 
 class ReportFormView(FormView):
     form_class = ReportForm
     template_name = "report.html"  # Replace with your template.
-    success_url = "welcome"  # Replace with your URL or reverse().
+    success_url = "/"  # Replace with your URL or reverse().
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -60,6 +36,7 @@ class ReportFormView(FormView):
         report = Report()
         report.title = form.cleaned_data["title"]
         report.text = form.cleaned_data["text"]
+        report.urgency = form.cleaned_data["urgency"]
         report.save()
         files = form.cleaned_data["files"]
         for f in files:
@@ -70,7 +47,4 @@ class ReportFormView(FormView):
 def ReportListView(request):
     reports = Report.objects.all()
     return render(request, "reports/report_list.html", {"reports" : reports})
-
-def submit(request):
-    return render(request, "name.html", {"form": form})
 
