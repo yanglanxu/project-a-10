@@ -10,6 +10,7 @@ from .models import User, Report, ReportFile
 
 def index(request):
     # print("why am I in here booo")
+
     return render(request, "index.html")
 
 def logout_view(request):
