@@ -6,6 +6,19 @@
     <title>Main Page - All Reports</title>
 </head>
 <body>
+    {% load socialaccount %}
+    {% load auth_extras %}
+    <a href="{% provider_login_url 'google' %}?next=/">Login with Google</a>
+
+    {% if user.is_authenticated %}
+    <p>You are signed in as {{user.username}}</p>
+    <a href="{% url 'logout'%}">Logout?</a>
+    {% endif %}
+
+    {% if request.user|has_group:"site_admin" %}
+    <p>You are an admin, {{user.username}}!</p>
+    {% endif %}
+
     <h1>Main Page - All Reports for the Past 24 Hours</h1>
 
     <!-- List of Reports -->
