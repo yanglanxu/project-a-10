@@ -14,7 +14,7 @@ def index(request):
     return render(request, "index.html")
 
 def main_page(request):
-    return render(request, "main_page.html")
+    return render(request, "main_page.html", {"reports": Report.objects.all()})
 
 def logout_view(request):
     logout(request)
