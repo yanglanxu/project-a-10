@@ -25,9 +25,10 @@
             border-radius: 10px;
             padding: 20px;
             width: 40%;
-            margin: 0 auto;
+            margin: auto;
             text-align: center;
             background-color: #c8d8e4;
+            position: relative;
         }
         .report-title {
             font-size: 24px;
@@ -106,7 +107,7 @@
         {% endif %}
     </div>
     <div class="button_position">
-        <a class="create_report_button" href="{% url 'logout'%}">Create New Report</a>
+        <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
     </div>
 <!--    <script>-->
 <!--        create_report = document.getElementsByClassName("create_report_button")-->
