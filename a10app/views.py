@@ -46,5 +46,6 @@ class ReportFormView(FormView):
 
 def report_list(request):
     reports = Report.objects.all()
+    print(reports)
     return render(request, "report_list.html", {"reports" : reports})
 

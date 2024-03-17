@@ -6,8 +6,14 @@
 </head>
 <body>
     <h1>Report List</h1>
+    {% if reports %}
+        {% for report in reports %}
+            <li>{{ report.title }} - {{ report.user.username }} - {{ report.text }}</li>
+        {% endfor %}
+    {% else %}
+                <p>No reports have been made.</p>
+    {% endif %}
     <u1>
-        <li>{{ report.title }} - {{ report.user.username }} - {{ report.text }}</li>
     </u1>
 </body>
 </html>
