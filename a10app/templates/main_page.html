@@ -21,14 +21,15 @@
             margin-right: 50%;
         }
         .report-box {
-            border: 2px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            width: 40%;
-            margin: auto;
-            text-align: center;
-            background-color: #c8d8e4;
-            position: relative;
+            /*border: 2px solid #ccc;*/
+            /*border-radius: 10px;*/
+            /*padding: 20px;*/
+            /*width: 40%;*/
+            /*margin: auto;*/
+            /*text-align: center;*/
+            /*background-color: #c8d8e4;*/
+            /*position: relative;*/
+
         }
         .report-title {
             font-size: 24px;
@@ -109,32 +110,34 @@
     <div class="button_position">
         <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
     </div>
-<!--    <script>-->
-<!--        create_report = document.getElementsByClassName("create_report_button")-->
-<!--        create_report.onclick = function(){-->
-<!--            -->
-<!--        };-->
-<!--    </script>-->
     <div class="reports_list">List of Current Reports</div>
 
     {% if reports %}
         {% for report in reports %}
-            <div class="report-box" onclick="goToReport({{report.id}})"> <!--report.id -->
-                <div class="report-title">{{ report.title }}</div>
-                <div class="report-username">{{ report.user.username }}</div>
-                <div class="report-text">{{ report.text }}</div>
-            </div>
-<!--            <li>{{ report.title }} - {{ report.user.username }} - {{ report.text }}</li>-->
+<!--            <div class="report-box" onclick="goToReport()"> &lt;!&ndash;report.id &ndash;&gt;-->
+<!--                <div class="report-title">{{ report.title }}</div>-->
+<!--                <div class="report-username">{{ report.user.username }}</div>-->
+<!--                <div class="report-text">{{ report.text }}</div>-->
+<!--            </div>-->
+                <div class="report-box">
+                    <a href="{% url 'a10app:view_report' report.id %}">
+                        <div class="report-title">{{ report.title }}</div>
+                        <div class="report-username">{{ report.user.username }}</div>
+                        <div class="report-text">{{ report.text }}</div>
+                    </a>
+                </div>
         {% endfor %}
     {% else %}
                 <p>No reports have been made.</p>
     {% endif %}
-    <script>
-        goToReport = function(report_id){
-            window.location.href = "{% url 'a10app:view_report' report_id %}";
-            //window.location.href = "{% url 'logout'%}";
-        };
-    </script>
+<!--    <script>-->
+<!--        goToReport = function(){-->
+<!--            //print(report.id)-->
+<!--            report_id=1-->
+<!--            window.location.href = "{% url 'a10app:view_report' 1 %}";-->
+<!--            //window.location.href = "{% url 'logout'%}";-->
+<!--        };-->
+<!--    </script>-->
 
     <br>
     <br>
