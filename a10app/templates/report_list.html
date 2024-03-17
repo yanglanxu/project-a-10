@@ -8,7 +8,7 @@
     <h1>Report List</h1>
     {% if reports %}
         {% for report in reports %}
-            <li>{{ report.title }} - {{ report.user.username }} - {{ report.text }}</li>
+            <li><a href="{% url 'a10app:view_report' report.id %}">Report Title:{{ report.title }}</a> - User: {{ report.user.username }} - Text: {{ report.text }}</li>
         {% endfor %}
     {% else %}
                 <p>No reports have been made.</p>

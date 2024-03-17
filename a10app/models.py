@@ -11,5 +11,10 @@ class Report(models.Model):
 
 class ReportFile(models.Model):
     file = models.FileField(upload_to="media/")
+    content_type = models.CharField(null=True, blank=True, max_length=100)
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.content_type = self.file.file.content_type
+        super().save(*args, **kwargs)
 
