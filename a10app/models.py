@@ -1,5 +1,8 @@
 from django.db import models
+import os
+
 from django.contrib.auth.models import User
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -18,5 +21,11 @@ class ReportFile(models.Model):
     def save(self, *args, **kwargs):
         self.content_type = self.file.file.content_type
         super().save(*args, **kwargs)
+
+
+@receiver(models.signals.post_delete, sender=ReportFile)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.file:
+        instance.file.delete(False)
     
 

@@ -100,7 +100,9 @@
         }
     </style>
 </head>
+<a href="{% url 'a10app:main_page'%}">Return to Main Page</a>
 {% if user.is_authenticated %}
+
 <h1>Your Reports</h1>
 <ul>
     {% for report in report_list %}
@@ -110,6 +112,9 @@
                                 <div class="report-username">Reviewed: {{ report.reviewed }}</div>
                                 <div class="report-text">{{ report.text }}</div>
                             </a>
+                        <div class="button_position">
+                            <a class=".mark_reviewed" href="{% url 'a10app:delete' report.id%}">Delete this?</a>
+                        </div>
         </div>
     {% empty %}
         <li>You have not made any reports</li>
