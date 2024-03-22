@@ -100,79 +100,22 @@
         }
     </style>
 </head>
-<body>
-    <div class="header">
-        <h1 class="title">Hazing Reporting Website</h1>
-        {% if not user.is_authenticated %}
-        {% load socialaccount %}
-        {% load auth_extras %}
+{% if user.is_authenticated %}
+<h1>Your Reports</h1>
+<ul>
+    {% for report in report_list %}
+        <div class="report-box">
+                            <a href="{% url 'a10app:view_report' report.id %}">
+                                <div class="report-title">{{ report.title }}</div>
+                                <div class="report-username">Reviewed: {{ report.reviewed }}</div>
+                                <div class="report-text">{{ report.text }}</div>
+                            </a>
+        </div>
+    {% empty %}
+        <li>You have not made any reports</li>
+    {% endfor %}
+{% else %}
+    You are not logged in
+{% endif %}
 
-        <a class="login_button" href="{% provider_login_url 'google' %}?next=/">Login with Google</a>
-        {% endif %}
-
-        {% if user.is_authenticated %}
-        <a class="logout_button" href="{% url 'logout'%}">You are signed in as {{user.username}}. Logout?</a>
-        {% endif %}
-
-
-        {% if request.user|has_group:"site_admin" %}
-        <p>You are an admin, {{user.username}}!</p>
-        {% endif %}
-    </div>
-    <div class="button_position">
-        <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
-        {% if request.user|has_group:"site_admin" %}
-        <a class="see_all_reports" href="{% url 'a10app:list_reports'%}">See All Reports</a>
-        {% endif %}
-    </div>
-    <div class="reports_list">List of Current Reports</div>
-
-    {% if user.is_authenticated %}
-        <a class="logout_button" href="{% url 'a10app:user_page'%}">View reports you've made</a>
-    {% endif %}
-    {% if reports %}
-        {% for report in reports %}
-<!--            <div class="report-box" onclick="goToReport()"> &lt;!&ndash;report.id &ndash;&gt;-->
-<!--                <div class="report-title">{{ report.title }}</div>-->
-<!--                <div class="report-username">{{ report.user.username }}</div>-->
-<!--                <div class="report-text">{{ report.text }}</div>-->
-<!--            </div>-->
-
-                {% comment %} console.log(report.reviewed) {% endcomment %}
-                {% comment %} <script>
-                    console.log('testing');
-                </script> {% endcomment %}
-
-                {% if report.reviewed %}
-                    <div class="report-box">
-                        <a href="{% url 'a10app:view_report' report.id %}">
-                            <div class="report-title">{{ report.title }}</div>
-                            <div class="report-username">{{ report.user.username }}</div>
-                            <div class="report-text">{{ report.text }}</div>
-                        </a>
-                    </div>
-
-            
-                {% endif %}
-                
-        {% endfor %}
-    {% else %}
-                <p>No reports have been made.</p>
-    {% endif %}
-<!--    <script>-->
-<!--        goToReport = function(){-->
-<!--            //print(report.id)-->
-<!--            report_id=1-->
-<!--            window.location.href = "{% url 'a10app:view_report' 1 %}";-->
-<!--            //window.location.href = "{% url 'logout'%}";-->
-<!--        };-->
-<!--    </script>-->
-
-    <br>
-    <br>
-
-    <!-- Pagination or Scroll -->
-    <!-- Add pagination or scrolling functionality here later -->
-
-</body>
-</html>
+</ul>

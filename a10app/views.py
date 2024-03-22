@@ -21,9 +21,6 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
-def redirect_to_report(request):
-    return redirect('/report')
-
 class ReportFormView(FormView):
     form_class = ReportForm
     template_name = "report.html"  # Replace with your template.
@@ -33,13 +30,15 @@ class ReportFormView(FormView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
-            return self.form_valid(form)
+            return self.form_valid(form, request)
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form):
+    def form_valid(self, form, request):
         report = Report()
         report.title = form.cleaned_data["title"]
+        if not request.user.is_anonymous:
+            report.user=User.objects.get(id=request.user.id)
         report.text = form.cleaned_data["text"]
         report.urgency = form.cleaned_data["urgency"]
         # report.reviewed = False
@@ -72,5 +71,11 @@ def mark_report_as_reviewed(request, report_id):
 
     report.save()
 
-    
     return render(request, "report_list.html", {"reports" : Report.objects.all()})
+
+def user_page(request):
+    report_list = []
+    if not request.user.is_anonymous:
+        user = User.objects.get(id=request.user.id)
+        report_list = Report.objects.filter(user=user)
+    return render(request, "user_page.html", {"report_list" : report_list})
