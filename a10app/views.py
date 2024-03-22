@@ -73,5 +73,9 @@ def mark_report_as_reviewed(request, report_id):
 
     report.save()
 
-    
     return render(request, "report_list.html", {"reports" : Report.objects.all()})
+
+def user_page(request):
+    user = User.objects.get(id=request.user.id)
+    report_list = Report.objects.filter(user=user)
+    return render(request, "user_page.html", {"report_list" : report_list})

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page - All Reports</title>
+
+    <style>
+        body{
+            --accent_color: #1b4d89;
+            min-width: 1450px;
+        }
+        .header{
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 50px;
+        }
+        .title{
+            color: var(--accent_color);
+            display: inline-block;
+            margin-right: 50%;
+        }
+        .report-box {
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 40%;
+            margin: auto;
+            text-align: center;
+            background-color: #c8d8e4;
+            position: relative;
+
+        }
+        .report-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent_color);
+        }
+        .login_button{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .see_all_reports{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .logout_button{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .report-text {
+            font-size: 16px;
+            color: var(--accent_color);
+        }
+        .report-username {
+            font-size: 16px;
+            color: var(--accent_color);
+        }
+        .button_position{
+            position: relative;
+        }
+        .create_report_button{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .reports_list{
+            color: var(--accent_color);
+            margin: auto;
+            font-size: 25px;
+            font-weight: bold;
+            width: 25%;
+            text-align: center;
+            border-bottom: solid;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<h1>Reports</h1>
+<ul>
+{% for report in report_list %}
+    <div class="report-box">
+                        <a href="{% url 'a10app:view_report' report.id %}">
+                            <div class="report-title">{{ report.title }}</div>
+                            <div class="report-username">{{ report.user.username }}</div>
+                            <div class="report-text">{{ report.text }}</div>
+                        </a>
+    </div>
+{% empty %}
+    <li>No articles yet.</li>
+{% endfor %}
+</ul>
