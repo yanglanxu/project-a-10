@@ -25,10 +25,6 @@ class ReportFile(models.Model):
 
 @receiver(models.signals.post_delete, sender=ReportFile)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
-    """
-    Deletes file from filesystem
-    when corresponding `MediaFile` object is deleted.
-    """
     if instance.file:
         instance.file.delete(False)
     

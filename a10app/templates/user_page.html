@@ -100,7 +100,9 @@
         }
     </style>
 </head>
+<a href="{% url 'a10app:main_page'%}">Return to Main Page</a>
 {% if user.is_authenticated %}
+
 <h1>Your Reports</h1>
 <ul>
     {% for report in report_list %}
