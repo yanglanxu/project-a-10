@@ -143,7 +143,7 @@
                     console.log('testing');
                 </script> {% endcomment %}
 
-                {% if report.reviewed %} {
+                {% if report.reviewed %}
                     <div class="report-box">
                         <a href="{% url 'a10app:view_report' report.id %}">
                             <div class="report-title">{{ report.title }}</div>
@@ -151,7 +151,7 @@
                             <div class="report-text">{{ report.text }}</div>
                         </a>
                     </div>
-                }
+
             
                 {% endif %}
                 
