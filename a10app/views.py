@@ -40,7 +40,8 @@ class ReportFormView(FormView):
     def form_valid(self, form, request):
         report = Report()
         report.title = form.cleaned_data["title"]
-        report.user=User.objects.get(id=request.user.id)
+        if not request.user.is_anonymous:
+            report.user=User.objects.get(id=request.user.id)
         report.text = form.cleaned_data["text"]
         report.urgency = form.cleaned_data["urgency"]
         # report.reviewed = False
@@ -76,6 +77,8 @@ def mark_report_as_reviewed(request, report_id):
     return render(request, "report_list.html", {"reports" : Report.objects.all()})
 
 def user_page(request):
-    user = User.objects.get(id=request.user.id)
-    report_list = Report.objects.filter(user=user)
+    report_list = []
+    if not request.user.is_anonymous:
+        user = User.objects.get(id=request.user.id)
+        report_list = Report.objects.filter(user=user)
     return render(request, "user_page.html", {"report_list" : report_list})

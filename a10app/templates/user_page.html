@@ -100,17 +100,22 @@
         }
     </style>
 </head>
-<h1>Reports</h1>
+{% if user.is_authenticated %}
+<h1>Your Reports</h1>
 <ul>
-{% for report in report_list %}
-    <div class="report-box">
-                        <a href="{% url 'a10app:view_report' report.id %}">
-                            <div class="report-title">{{ report.title }}</div>
-                            <div class="report-username">{{ report.user.username }}</div>
-                            <div class="report-text">{{ report.text }}</div>
-                        </a>
-    </div>
-{% empty %}
-    <li>No articles yet.</li>
-{% endfor %}
+    {% for report in report_list %}
+        <div class="report-box">
+                            <a href="{% url 'a10app:view_report' report.id %}">
+                                <div class="report-title">{{ report.title }}</div>
+                                <div class="report-username">Reviewed: {{ report.reviewed }}</div>
+                                <div class="report-text">{{ report.text }}</div>
+                            </a>
+        </div>
+    {% empty %}
+        <li>You have not made any reports</li>
+    {% endfor %}
+{% else %}
+    You are not logged in
+{% endif %}
+
 </ul>
