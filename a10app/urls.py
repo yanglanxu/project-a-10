@@ -10,6 +10,7 @@ urlpatterns = [
     path("report", views.ReportFormView.as_view(), name='report'),
     # path("welcome", views.isAdmin)
     path("user", views.user_page, name="user_page"),
+    path("<int:report_id>/delete", views.delete, name="delete"),
     path("list_reports", views.report_list, name="list_reports"),
     path("<int:report_id>/view_report/", views.view_report, name="view_report"),
     path("<int:report_id>/review_report/", views.review_report, name="review_report"),

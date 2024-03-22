@@ -79,3 +79,10 @@ def user_page(request):
         user = User.objects.get(id=request.user.id)
         report_list = Report.objects.filter(user=user)
     return render(request, "user_page.html", {"report_list" : report_list})
+
+def delete(request, report_id):
+    report = Report.objects.get(id=report_id)
+    if(request.user.id != report.user.id):
+        return redirect("/")
+    report.delete()
+    return redirect("a10app:user_page")
