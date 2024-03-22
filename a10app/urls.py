@@ -8,7 +8,6 @@ urlpatterns = [
     path("", views.main_page, name="main_page"),
     path("logout", views.logout),
     path("report", views.ReportFormView.as_view(), name='report'),
-    path('redirect-to-report/', views.redirect_to_report, name='redirect_to_report'),
     # path("welcome", views.isAdmin)
     path("user", views.user_page, name="user_page"),
     path("list_reports", views.report_list, name="list_reports"),

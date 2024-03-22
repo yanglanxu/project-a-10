@@ -21,9 +21,6 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
-def redirect_to_report(request):
-    return redirect('/report')
-
 class ReportFormView(FormView):
     form_class = ReportForm
     template_name = "report.html"  # Replace with your template.
