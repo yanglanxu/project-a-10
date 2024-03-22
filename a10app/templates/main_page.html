@@ -127,6 +127,9 @@
     </div>
     <div class="reports_list">List of Current Reports</div>
 
+    {% if user.is_authenticated %}
+        <a class="logout_button" href="{% url 'a10app:user_page'%}">View reports you've made</a>
+    {% endif %}
     {% if reports %}
         {% for report in reports %}
 <!--            <div class="report-box" onclick="goToReport()"> &lt;!&ndash;report.id &ndash;&gt;-->
