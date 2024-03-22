@@ -33,13 +33,14 @@ class ReportFormView(FormView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
-            return self.form_valid(form)
+            return self.form_valid(form, request)
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form):
+    def form_valid(self, form, request):
         report = Report()
         report.title = form.cleaned_data["title"]
+        report.user=User.objects.get(id=request.user.id)
         report.text = form.cleaned_data["text"]
         report.urgency = form.cleaned_data["urgency"]
         # report.reviewed = False
