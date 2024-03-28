@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic.edit import FormView
 from .forms import ReportForm
 from .models import User, Report, ReportFile
+from a10app.templatetags.auth_extras import has_group
 from django.views.decorators.http import require_POST
 
 
@@ -57,17 +58,15 @@ def report_list(request):
 def view_report(request, report_id):
     report = Report.objects.get(id=report_id)
 
-    files = ReportFile.objects.filter(report=report)
-    return render(request, "view_report.html", {"report" : report, "files" : files})
-
-def review_report(request, report_id):
-    report = Report.objects.get(id=report_id)
-
-    report.status = "In Progress"
-    report.save()
+    if not request.user.is_anonymous:
+        user = User.objects.get(id=request.user.id)
+        if has_group(user, "site_admin"):
+            report.status="In Progress"
+            report.save()
 
     files = ReportFile.objects.filter(report=report)
     return render(request, "view_report.html", {"report" : report, "files" : files})
+
 
 def mark_report_as_resolved(request, report_id):
     report = Report.objects.get(id=report_id)
@@ -81,7 +80,6 @@ def mark_report_as_resolved(request, report_id):
 def user_page(request):
     report_list = []
     if not request.user.is_anonymous:
-        user = User.objects.get(id=request.user.id)
         report_list = Report.objects.filter(user=user)
     return render(request, "user_page.html", {"report_list" : report_list})
 
