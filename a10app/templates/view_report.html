@@ -6,7 +6,7 @@
     <title>View Full Report</title>
 
     <style>
-        .mark_reviewed{
+        .mark_as_resolved{
             background-color: var(--accent_color);
             color: white;
             border-radius: 10px;
@@ -57,7 +57,7 @@
 
     {% if request.user|has_group:"site_admin" %}
         <div class="button_position">
-            <a class=".mark_reviewed" href="{% url 'a10app:mark_report_as_reviewed' report.id%}">Mark As Reviewed</a>
+            <a class=".mark_as_resolved" href="{% url 'a10app:mark_report_as_resolved' report.id%}">Mark as Resolved</a>
         </div>
             
     {% endif %}

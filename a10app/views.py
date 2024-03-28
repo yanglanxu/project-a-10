@@ -56,18 +56,23 @@ def report_list(request):
 
 def view_report(request, report_id):
     report = Report.objects.get(id=report_id)
-    print(report.reviewed)
+
     files = ReportFile.objects.filter(report=report)
     return render(request, "view_report.html", {"report" : report, "files" : files})
 
 def review_report(request, report_id):
     report = Report.objects.get(id=report_id)
+
+    report.status = "In Progress"
+    report.save()
+
     files = ReportFile.objects.filter(report=report)
     return render(request, "view_report.html", {"report" : report, "files" : files})
 
-def mark_report_as_reviewed(request, report_id):
+def mark_report_as_resolved(request, report_id):
     report = Report.objects.get(id=report_id)
-    report.reviewed = True
+    report.status = "Resolved"
+    # report.admin_comments = form.cleaned_data["text"]
 
     report.save()
 

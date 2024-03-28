@@ -11,7 +11,8 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     text = models.TextField(blank=True, max_length=2000)
     urgency = models.IntegerField(default=1)
-    reviewed = models.BooleanField(default=False)
+    admin_comments = models.TextField(blank=True, max_length=2000)
+    status = models.CharField(default="New", max_length=50)
 
 class ReportFile(models.Model):
     file = models.FileField(upload_to="media/")
