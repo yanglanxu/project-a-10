@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Form</title>
+    <title>Report List</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
-            background-color: #f2f2f2;
+            color: #333;
         }
-
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -19,108 +19,64 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            animation: fade 0.5s ease forwards;
         }
-
-        @keyframes fade {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
         h1 {
-            text-align: center;
-            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
-
-        label {
-            font-weight: bold;
+        ul {
+            padding: 0;
         }
-
-        input[type="text"],
-        textarea,
-        select,
-        input[type="file"] {
-            width: calc(100% - 22px);
-            margin-top: 8px;
+        li {
+            list-style-type: none;
+            background-color: #f5f5f5;
+            border-radius: 6px;
             padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
+            margin-bottom: 10px;
         }
-
-        select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background: url('data:image/svg+xml;utf8,<svg fill="#333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 10px center/10px 10px;
-            padding-right: 30px;
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
-
-        textarea {
-            height: 150px;
-            resize: vertical;
+        a:hover {
+            color: #0056b3;
         }
-
-        .likert-scale {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
+        .no-reports {
+            font-style: italic;
+            color: #777;
+            margin: 10px 0;
         }
-
-        .likert-scale label {
-            margin-right: 10px;
-        }
-
-        .likert-scale input[type="radio"] {
-            margin-right: 5px;
-        }
-
-        input[type="submit"] {
+        .main-page-link {
+            display: inline-block;
             margin-top: 20px;
-            padding: 12px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
         }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
+        .main-page-link:hover {
+            color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Report Form</h1>
-        <form action="report" method="post" enctype='multipart/form-data'>
-            {% csrf_token %}
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" placeholder="Enter title..."><br>
-
-            <div class="likert-scale">
-                <label for="urgency">Urgency:</label>
-                <select id="urgency" name="urgency">
-                    <option value="1">1 - Not urgent</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5 - Very urgent</option>
-                </select>
-            </div>
-
-            <textarea id="comments" name="text" placeholder="Add your comments here..."></textarea><br>
-            <input type="file" name="files" id="files" multiple><br>
-            <input type="submit" value="Submit">
-        </form>
+        <h1>Report List</h1>
+        <ul>
+            {% if reports %}
+                {% for report in reports %}
+                    <li>
+                        <a href="{% url 'a10app:view_report' report.id %}">
+                            <strong>{{ report.title }}</strong> - User: {{ report.user.username }} - {{ report.text }}
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <p class="no-reports">No reports have been made.</p>
+            {% endif %}
+        </ul>
+        <a href="{% url 'a10app:main_page' %}" class="main-page-link">Return to Main Page</a>
     </div>
 </body>
 </html>
