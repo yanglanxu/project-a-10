@@ -4,12 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Full Report</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin: 0;
+        }
+        .return-button {
+            background-color: #1b4d89;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .mark_as_resolved {
+            background-color: #1b4d89;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .mark_as_resolved:hover {
+            background-color: #0e3b6b;
+        }
+        .button_position {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .report-section {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        textarea,
+        select,
+        input[type="file"] {
+            width: calc(100% - 22px);
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+    </style>
+
+
 </head>
 <body>
-    <h1>Full Report</h1>
-    <p>Title: {{ report.title }}</p>
-    <p>Text: {{ report.text }}</p>
+    {% load auth_extras %}
+    <h1>{{ report.title }}</h1>
+    <div class="report-section">
+            {% if user.is_authenticated and report.user.id == user.id %}
+                <p><strong>Status:</strong> {{ report.status }}</p>
+        <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
+            {% endif %}
 
+        <p><strong>Text:</strong> {{ report.text }}</p>
+    </div>
 
     <!-- Files Section -->
     <h2>Files</h2>
@@ -28,11 +89,17 @@
         {% endfor %}
     </ul>
 
-    <script>
-        function showComments() {
-            var commentsSection = document.getElementById('commentsSection');
-            commentsSection.style.display = 'block';
-        }
-    </script>
+    {% if request.user|has_group:"site_admin" %}
+        <form action="{% url 'a10app:mark_report_as_resolved' report.id%}" method="post" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <textarea id="comments" name="comments" placeholder="Admin comments here"></textarea><br>
+                <div class="button_position">
+                    <input type="submit" class="mark_as_resolved" value="Resolve">
+                </div>
+        </form>
+    {% endif %}
+    <div class="footer">
+            <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
+        </div>
 </body>
 </html>

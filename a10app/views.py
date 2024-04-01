@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic.edit import FormView
 from .forms import ReportForm
 from .models import User, Report, ReportFile
+from a10app.templatetags.auth_extras import has_group
+from django.views.decorators.http import require_POST
 
 
 def index(request):
@@ -20,27 +22,27 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
-def redirect_to_report(request):
-    return redirect('/report')
-
 class ReportFormView(FormView):
     form_class = ReportForm
-    template_name = "report.html"  # Replace with your template.
+    template_name = "make_report.html"  # Replace with your template.
     success_url = "/"  # Replace with your URL or reverse().
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
-            return self.form_valid(form)
+            return self.form_valid(form, request)
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form):
+    def form_valid(self, form, request):
         report = Report()
         report.title = form.cleaned_data["title"]
+        if not request.user.is_anonymous:
+            report.user=User.objects.get(id=request.user.id)
         report.text = form.cleaned_data["text"]
         report.urgency = form.cleaned_data["urgency"]
+        # report.reviewed = False
         report.save()
         files = form.cleaned_data["files"]
         for f in files:
@@ -55,6 +57,36 @@ def report_list(request):
 
 def view_report(request, report_id):
     report = Report.objects.get(id=report_id)
+
+    if not request.user.is_anonymous:
+        user = User.objects.get(id=request.user.id)
+        if has_group(user, "site_admin") and report.status == "New":
+            report.status="In Progress"
+            report.save()
+
     files = ReportFile.objects.filter(report=report)
     return render(request, "view_report.html", {"report" : report, "files" : files})
 
+
+def mark_report_as_resolved(request, report_id):
+    report = Report.objects.get(id=report_id)
+    report.status = "Resolved"
+    report.admin_comments = request.POST["comments"]
+    report.save()
+
+    return render(request, "report_list.html", {"reports" : Report.objects.all()})
+
+
+def user_page(request):
+    report_list = []
+    if not request.user.is_anonymous:
+        user = request.user
+        report_list = Report.objects.filter(user=user)
+    return render(request, "user_page.html", {"report_list": report_list})
+
+def delete(request, report_id):
+    report = Report.objects.get(id=report_id)
+    if(request.user.id != report.user.id):
+        return redirect("/")
+    report.delete()
+    return redirect("a10app:user_page")

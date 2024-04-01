@@ -2,18 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        ul {
+            padding: 0;
+        }
+        li {
+            list-style-type: none;
+            background-color: #f5f5f5;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        .no-reports {
+            font-style: italic;
+            color: #777;
+            margin: 10px 0;
+        }
+        .main-page-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .main-page-link:hover {
+            color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Report List</h1>
-    {% if reports %}
-        {% for report in reports %}
-            <li><a href="{% url 'a10app:view_report' report.id %}">Report Title:{{ report.title }}</a> - User: {{ report.user.username }} - Text: {{ report.text }}</li>
-        {% endfor %}
-    {% else %}
-                <p>No reports have been made.</p>
-    {% endif %}
-    <u1>
-    </u1>
+    <div class="container">
+        <h1>Report List</h1>
+        <ul>
+            {% if reports %}
+                {% for report in reports %}
+                    <li>
+                        <a href="{% url 'a10app:view_report' report.id %}">
+                            <strong>{{ report.title }}</strong> - User: {{ report.user.username }} - {{ report.text }}
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <p class="no-reports">No reports have been made.</p>
+            {% endif %}
+        </ul>
+        <a href="{% url 'a10app:main_page' %}" class="main-page-link">Return to Main Page</a>
+    </div>
 </body>
 </html>
