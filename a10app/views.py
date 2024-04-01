@@ -71,8 +71,7 @@ def view_report(request, report_id):
 def mark_report_as_resolved(request, report_id):
     report = Report.objects.get(id=report_id)
     report.status = "Resolved"
-    # report.admin_comments = form.cleaned_data["text"]
-
+    report.admin_comments = request.POST["text"]
     report.save()
 
     return render(request, "report_list.html", {"reports" : Report.objects.all()})

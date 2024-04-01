@@ -77,12 +77,12 @@
     </ul>
 
 
-    <textarea id="admin-comments" name="text" placeholder="Admin comments"></textarea><br>
-
-    <div class="button_position">
-        {% if request.user|has_group:"site_admin" %}
-            <a class="mark_as_resolved" href="{% url 'a10app:mark_report_as_resolved' report.id%}">Mark as Resolved</a>
-        {% endif %}
-    </div>
+    <form action="{% url 'a10app:mark_report_as_resolved' report.id%}" method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <textarea id="comments" name="comments" placeholder="Admin comments here"></textarea><br>
+            <div class="button_position">
+                <input type="submit" class="mark_as_resolved" value="Resolve">
+            </div>
+    </form>
 </body>
 </html>
