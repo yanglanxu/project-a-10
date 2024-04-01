@@ -33,6 +33,19 @@
         .report-section {
             margin-bottom: 20px;
         }
+
+        input[type="text"],
+        textarea,
+        select,
+        input[type="file"] {
+            width: calc(100% - 22px);
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
     </style>
 
 
@@ -41,6 +54,7 @@
     {% load auth_extras %}
     <h1>Full Report</h1>
     <div class="report-section">
+        <p><strong>Status:</strong> {{ report.status }}</p>
         <p><strong>Title:</strong> {{ report.title }}</p>
         <p><strong>Text:</strong> {{ report.text }}</p>
     </div>
@@ -61,6 +75,9 @@
             </li>
         {% endfor %}
     </ul>
+
+
+    <textarea id="admin-comments" name="text" placeholder="Admin comments"></textarea><br>
 
     <div class="button_position">
         {% if request.user|has_group:"site_admin" %}
