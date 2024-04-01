@@ -81,7 +81,7 @@ def mark_report_as_resolved(request, report_id):
 def user_page(request):
     report_list = []
     if not request.user.is_anonymous:
-        user = request.user  # Retrieve the user object from the request
+        user = request.user
         report_list = Report.objects.filter(user=user)
     return render(request, "user_page.html", {"report_list": report_list})
 
