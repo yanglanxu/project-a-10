@@ -3,106 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Reports</title>
+    <title>Main Page - All Reports</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            padding: 20px;
-            margin: 0;
+        body{
+            --accent_color: #1b4d89;
+            min-width: 1450px;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding-bottom: 60px; /* Adjust this value to accommodate the button */
+        .header{
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 50px;
+        }
+        .title{
+            color: var(--accent_color);
+            display: inline-block;
+            margin-right: 50%;
         }
         .report-box {
             border: 2px solid #ccc;
             border-radius: 10px;
             padding: 20px;
-            margin-bottom: 20px;
-            background-color: #fff;
+            width: 40%;
+            margin: auto;
+            text-align: center;
+            background-color: #c8d8e4;
+            position: relative;
+
         }
         .report-title {
             font-size: 24px;
             font-weight: bold;
-            color: #1b4d89;
             margin-bottom: 10px;
+            color: var(--accent_color);
+        }
+        .login_button{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .see_all_reports{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .logout_button{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .report-text {
+            font-size: 16px;
+            color: var(--accent_color);
         }
         .report-username {
             font-size: 16px;
-            color: #666;
-            margin-bottom: 5px;
+            color: var(--accent_color);
         }
-        .report-text {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 15px;
+        .button_position{
+            position: relative;
         }
-        .button-position {
-            text-align: right;
-        }
-        .delete-button {
-            background-color: #c62828;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .delete-button:hover {
-            background-color: #b71c1c;
-        }
-        .return-button {
-            background-color: #1b4d89;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .return-button:hover {
-            background-color: #0e3b6b;
-        }
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #f2f2f2;
+        .create_report_button{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
             padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .reports_list{
+            color: var(--accent_color);
+            margin: auto;
+            font-size: 25px;
+            font-weight: bold;
+            width: 25%;
             text-align: center;
+            border-bottom: solid;
+            margin-bottom: 20px;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Your Reports</h1>
-        <ul>
-            {% for report in report_list %}
-            <li>
-                <div class="report-box">
-                    <div class="report-title">{{ report.title }}</div>
-                    <div class="report-username">Reviewed: {{ report.reviewed }}</div>
-                    <div class="report-text">{{ report.text }}</div>
-                    <div class="button-position">
-                        <a class="delete-button" href="{% url 'a10app:delete' report.id %}">Delete this?</a>
-                    </div>
-                </div>
-            </li>
-            {% empty %}
-            <li>You have not made any reports</li>
-            {% endfor %}
-        </ul>
-    </div>
+<a href="{% url 'a10app:main_page'%}">Return to Main Page</a>
+{% if user.is_authenticated %}
 
-    <div class="footer">
-        <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
-    </div>
-</body>
-</html>
+<h1>Your Reports</h1>
+<ul>
+    {% for report in report_list %}
+        <div class="report-box">
+                            <a href="{% url 'a10app:view_report' report.id %}">
+                                <div class="report-title">{{ report.title }}</div>
+                                <div class="report-username">Reviewed: {{ report.reviewed }}</div>
+                                <div class="report-text">{{ report.text }}</div>
+                            </a>
+                        <div class="button_position">
+                            <a class=".mark_reviewed" href="{% url 'a10app:delete' report.id%}">Delete this?</a>
+                        </div>
+        </div>
+    {% empty %}
+        <li>You have not made any reports</li>
+    {% endfor %}
+{% else %}
+    You are not logged in
+{% endif %}
+
+</ul>
