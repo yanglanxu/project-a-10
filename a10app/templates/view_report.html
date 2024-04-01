@@ -6,29 +6,44 @@
     <title>View Full Report</title>
 
     <style>
-        .mark_as_resolved{
-            background-color: var(--accent_color);
-            color: white;
-            border-radius: 10px;
-            border-color: var(--accent_color);
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
             padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
-            text-decoration: none;
+            margin: 0;
         }
-        .button_position{
-            position: relative;
+        .mark_as_resolved {
+            background-color: #1b4d89;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .mark_as_resolved:hover {
+            background-color: #0e3b6b;
+        }
+        .button_position {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .report-section {
+            margin-bottom: 20px;
         }
     </style>
 
-    
+
 </head>
 <body>
     {% load auth_extras %}
     <h1>Full Report</h1>
-    <p>Title: {{ report.title }}</p>
-    <p>Text: {{ report.text }}</p>
-
+    <div class="report-section">
+        <p><strong>Title:</strong> {{ report.title }}</p>
+        <p><strong>Text:</strong> {{ report.text }}</p>
+    </div>
 
     <!-- Files Section -->
     <h2>Files</h2>
@@ -45,22 +60,12 @@
                 >
             </li>
         {% endfor %}
-
     </ul>
 
-    <script>
-        function showComments() {
-            var commentsSection = document.getElementById('commentsSection');
-            commentsSection.style.display = 'block';
-        }
-    </script>
-
-    {% if request.user|has_group:"site_admin" %}
-        <div class="button_position">
-            <a class=".mark_as_resolved" href="{% url 'a10app:mark_report_as_resolved' report.id%}">Mark as Resolved</a>
-        </div>
-            
-    {% endif %}
-
+    <div class="button_position">
+        {% if request.user|has_group:"site_admin" %}
+            <a class="mark_as_resolved" href="{% url 'a10app:mark_report_as_resolved' report.id%}">Mark as Resolved</a>
+        {% endif %}
+    </div>
 </body>
 </html>
