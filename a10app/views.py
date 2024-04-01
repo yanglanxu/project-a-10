@@ -60,7 +60,7 @@ def view_report(request, report_id):
 
     if not request.user.is_anonymous:
         user = User.objects.get(id=request.user.id)
-        if has_group(user, "site_admin"):
+        if has_group(user, "site_admin") and report.status == "New":
             report.status="In Progress"
             report.save()
 
