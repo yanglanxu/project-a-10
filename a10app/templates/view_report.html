@@ -77,13 +77,14 @@
         {% endfor %}
     </ul>
 
-
-    <form action="{% url 'a10app:mark_report_as_resolved' report.id%}" method="post" enctype='multipart/form-data'>
-        {% csrf_token %}
-        <textarea id="comments" name="comments" placeholder="Admin comments here"></textarea><br>
-            <div class="button_position">
-                <input type="submit" class="mark_as_resolved" value="Resolve">
-            </div>
-    </form>
+    {% if request.user|has_group:"site_admin" %}
+        <form action="{% url 'a10app:mark_report_as_resolved' report.id%}" method="post" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <textarea id="comments" name="comments" placeholder="Admin comments here"></textarea><br>
+                <div class="button_position">
+                    <input type="submit" class="mark_as_resolved" value="Resolve">
+                </div>
+        </form>
+    {% endif %}
 </body>
 </html>
