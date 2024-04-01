@@ -57,7 +57,12 @@
 </head>
 <body>
     <div class="container">
-        <h1 id="report-title">Report</h1>
+        <h1 id="report-title">Report
+            {% if user.is_authenticated and (report.user == user or user.is_staff) %}
+                - {{ report.status }}
+            {% endif %}
+        </h1>
+
         <form action="report" method="post" enctype='multipart/form-data'>
             {% csrf_token %}
             <label for="title">Title:</label>
