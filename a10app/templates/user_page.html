@@ -94,7 +94,7 @@
                     <a href="{% url 'a10app:view_report' report.id %}">
                         <div class="report-title">{{ report.title }}</div>
                     </a>
-                    <div class="report-username">Reviewed: {{ report.reviewed }}</div>
+                    <div class="report-username">Status: {{ report.status }}</div>
                     <div class="report-text">{{ report.text }}</div>
                     <div class="button-position">
                         <a class="delete-button" href="{% url 'a10app:delete' report.id %}">Delete this?</a>
