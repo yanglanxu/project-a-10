@@ -62,11 +62,13 @@
 </head>
 <body>
     {% load auth_extras %}
-    <h1>Full Report</h1>
+    <h1>{{ report.title }}</h1>
     <div class="report-section">
-        <p><strong>Status:</strong> {{ report.status }}</p>
+            {% if user.is_authenticated and report.user.id == user.id %}
+                <p><strong>Status:</strong> {{ report.status }}</p>
         <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
-        <p><strong>Title:</strong> {{ report.title }}</p>
+            {% endif %}
+
         <p><strong>Text:</strong> {{ report.text }}</p>
     </div>
 
