@@ -24,7 +24,7 @@ def logout_view(request):
 
 class ReportFormView(FormView):
     form_class = ReportForm
-    template_name = "report.html"  # Replace with your template.
+    template_name = "make_report.html"  # Replace with your template.
     success_url = "/"  # Replace with your URL or reverse().
 
     def post(self, request, *args, **kwargs):
