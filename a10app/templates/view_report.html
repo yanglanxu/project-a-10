@@ -12,6 +12,16 @@
             padding: 20px;
             margin: 0;
         }
+        .return-button {
+            background-color: #1b4d89;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+        }
         .mark_as_resolved {
             background-color: #1b4d89;
             color: white;
@@ -86,5 +96,8 @@
                 </div>
         </form>
     {% endif %}
+    <div class="footer">
+            <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
+        </div>
 </body>
 </html>
