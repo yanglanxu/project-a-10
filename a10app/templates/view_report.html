@@ -64,7 +64,10 @@
     {% load auth_extras %}
     <h1>{{ report.title }}</h1>
     <div class="report-section">
-            {% if user.is_authenticated and report.user.id == user.id %}
+        {% if request.user|has_group:"site_admin" %}
+        <p><strong>Status:</strong> {{ report.status }}</p>
+        <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
+        {% elif user.is_authenticated and report.user.id == user.id%}
                 <p><strong>Status:</strong> {{ report.status }}</p>
         <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
             {% endif %}
