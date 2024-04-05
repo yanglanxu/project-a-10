@@ -56,6 +56,7 @@
             font-size: 15px;
             margin-bottom: 10px;
             text-decoration: none;
+            margin-left: 10px;
         }
         .logout_button{
             background-color: var(--accent_color);
@@ -164,7 +165,7 @@
 
         <form class="form" action="{% url 'a10app:search_reports'%}" method="post" enctype='multipart/form-data'>
             {% csrf_token %}
-            <textarea id="search_parameters" name="search_parameters" class="search_field" placeholder="Search reports by title or status"></textarea><br>
+            <textarea id="search_parameters" name="search_parameters" class="search_field" placeholder="Search reports by title, status, or text"></textarea><br>
             <input type="submit" class="search" value="Search">
         </form>
 
