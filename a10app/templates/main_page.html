@@ -121,6 +121,13 @@
     </div>
     <div class="button_position">
         <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
+
+        <form action="{% url 'a10app:search_reports'%}" method="post" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <textarea id="search_parameters" name="search_parameters" placeholder="Enter search parameters here"></textarea><br>
+            <input type="submit" class="Search" value="Search">
+        </form>
+
         {% if request.user|has_group:"site_admin" %}
         <a class="see_all_reports" href="{% url 'a10app:list_reports'%}">See All Reports</a>
         {% endif %}

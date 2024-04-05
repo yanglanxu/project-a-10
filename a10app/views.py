@@ -50,6 +50,8 @@ class ReportFormView(FormView):
             new_upload.save()
         return super().form_valid(form)
 
+
+
 def report_list(request):
     reports = Report.objects.all()
     print(reports)
@@ -66,7 +68,6 @@ def view_report(request, report_id):
 
     files = ReportFile.objects.filter(report=report)
     return render(request, "view_report.html", {"report" : report, "files" : files})
-
 
 def mark_report_as_resolved(request, report_id):
     report = Report.objects.get(id=report_id)
@@ -90,3 +91,11 @@ def delete(request, report_id):
         return redirect("/")
     report.delete()
     return redirect("a10app:user_page")
+
+
+def search_reports(request):
+    search_parameter = request.POST["search_parameters"]
+    print(search_parameter)
+    query = {"title" : search_parameter}
+    reports = Report.objects.filter(**query)
+    return render(request, "main_page.html", {"reports": reports})
