@@ -99,7 +99,7 @@ def search_reports(request):
     #reports = Report.objects.filter(title__iregex = search_parameter, status__iregex = search_parameter)
 
     q_filter = Q()
-    for field in ["title", "status"]:
+    for field in ["title", "status", "text"]:
         q_filter |= Q(**{f"{field}__icontains": search_parameter})
 
     reports = Report.objects.filter(q_filter)
