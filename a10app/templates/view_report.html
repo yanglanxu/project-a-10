@@ -78,10 +78,25 @@
     <!-- Files Section -->
     <h2>Files</h2>
     <ul>
-        {% for file in files %}
-            <li>
+        <p><strong>Text Files</strong></p>
+        {% for text in text %}
+            <li style="list-style-type:none;">
                 <embed
-                    src="{{file.file.url}}"
+                    src="{{text.file.url}}"
+                    type="text/plain"
+                    frameBorder="0"
+                    scrolling="auto"
+                    height="500px"
+                    width="75%"
+                >
+            </li>
+        {% endfor %}
+
+        <p><strong>PDFs</strong></p>
+        {% for pdf in pdf %}
+            <li style="list-style-type:none;">
+                <embed
+                    src="{{pdf.file.url}}"
                     type="application/pdf"
                     frameBorder="0"
                     scrolling="auto"
@@ -90,6 +105,15 @@
                 >
             </li>
         {% endfor %}
+        <p><strong>Images</strong></p>
+        {% for image in images %}
+            <li style="list-style-type:none;">
+                <img src="{{image.file.url}}"
+                    height="500px"
+                    width="75%">
+            </li>
+        {% endfor %}
+
     </ul>
 
     {% if request.user|has_group:"site_admin" %}
