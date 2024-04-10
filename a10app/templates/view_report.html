@@ -67,6 +67,7 @@
         {% if request.user|has_group:"site_admin" %}
         <p><strong>Status:</strong> {{ report.status }}</p>
         <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
+        <p><font color="red"><strong>Flagged:</strong> {{ report.flagged }} times</font></p>
         {% elif user.is_authenticated and report.user.id == user.id%}
                 <p><strong>Status:</strong> {{ report.status }}</p>
         <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
