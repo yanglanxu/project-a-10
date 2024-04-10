@@ -41,6 +41,7 @@ class ReportFormView(FormView):
         if not request.user.is_anonymous:
             report.user=User.objects.get(id=request.user.id)
         report.text = form.cleaned_data["text"]
+        report.location = form.cleaned_data["location"]
         report.urgency = form.cleaned_data["urgency"]
         # report.reviewed = False
         report.save()
