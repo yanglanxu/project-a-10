@@ -91,3 +91,9 @@ def delete(request, report_id):
         return redirect("/")
     report.delete()
     return redirect("a10app:user_page")
+
+def flag(request, report_id):
+    report = Report.objects.get(id=report_id)
+    report.flagged += 1
+    report.save()
+    return redirect("a10app:view_report, report_id")
