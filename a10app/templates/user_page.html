@@ -89,12 +89,13 @@
         <h1>Your Reports</h1>
         <ul>
             {% for report in report_list %}
-            <li>
+            <li style="list-style-type:none;">
                 <div class="report-box">
                     <a href="{% url 'a10app:view_report' report.id %}">
                         <div class="report-title">{{ report.title }}</div>
                     </a>
                     <div class="report-username">Status: {{ report.status }}</div>
+                    <div class="report-username">Location: {{ report.location }}</div>
                     <div class="report-text">{{ report.text }}</div>
                     <div class="button-position">
                         <a class="delete-button" href="{% url 'a10app:delete' report.id %}">Delete this?</a>

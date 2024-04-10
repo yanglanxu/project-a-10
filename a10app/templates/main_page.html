@@ -146,10 +146,11 @@
                 {% if report.status == "Resolved" %}
                     <div class="report-box">
                         <a href="{% url 'a10app:view_report' report.id %}">
-                            <div class="report-title">{{ report.title }}</div>
-                            <div class="report-username">{{ report.user.username }}</div>
-                            <div class="report-text">{{ report.text }}</div>
-                        </a>
+                            <div class="report-title">{{ report.title }}</div></a>
+                            <div class="report-username">Location: {{ report.location }}</div>
+                            <div class="report-username">User: {{ report.user.username }}</div>
+                            <div class="report-text">Details: {{ report.text }}</div>
+
                     </div>
 
             
