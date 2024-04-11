@@ -56,6 +56,7 @@
             font-size: 15px;
             margin-bottom: 10px;
             text-decoration: none;
+            margin-left: 10px;
         }
         .logout_button{
             background-color: var(--accent_color);
@@ -67,6 +68,17 @@
             margin-bottom: 10px;
             text-decoration: none;
         }
+        .view_reports{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            margin-left: 10px;
+        }
         .report-text {
             font-size: 16px;
             color: var(--accent_color);
@@ -77,6 +89,10 @@
         }
         .button_position{
             position: relative;
+            margin: auto;
+            width: 60%;
+            display: flex;
+            margin-bottom: 50px;
         }
         .create_report_button{
             background-color: var(--accent_color);
@@ -87,6 +103,31 @@
             font-size: 15px;
             margin-bottom: 10px;
             text-decoration: none;
+            margin-right: 10px;
+        }
+        .search{
+            background-color: var(--accent_color);
+            color: white;
+            border-radius: 10px;
+            border-color: var(--accent_color);
+            padding: 20px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        .search_field{
+            width: 500px;
+            display: inline-block;
+            position: relative;
+            resize: none;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: text;
+            margin-left: 10px;
+        }
+        .form{
+            display: flex;
         }
         .reports_list{
             color: var(--accent_color);
@@ -121,15 +162,24 @@
     </div>
     <div class="button_position">
         <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
+
+        <form class="form" action="{% url 'a10app:search_reports'%}" method="post" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <textarea id="search_parameters" name="search_parameters" class="search_field" placeholder="Search reports by title, status, or text"></textarea><br>
+            <input type="submit" class="search" value="Search">
+        </form>
+
+        {% if user.is_authenticated %}
+            <a class="view_reports" href="{% url 'a10app:user_page'%}">View reports you've made</a>
+        {% endif %}
+
         {% if request.user|has_group:"site_admin" %}
         <a class="see_all_reports" href="{% url 'a10app:list_reports'%}">See All Reports</a>
         {% endif %}
     </div>
     <div class="reports_list">List of Current Reports</div>
 
-    {% if user.is_authenticated %}
-        <a class="logout_button" href="{% url 'a10app:user_page'%}">View reports you've made</a>
-    {% endif %}
+
     {% if reports %}
         {% for report in reports %}
 <!--            <div class="report-box" onclick="goToReport()"> &lt;!&ndash;report.id &ndash;&gt;-->
@@ -143,7 +193,6 @@
                     console.log('testing');
                 </script> {% endcomment %}
 
-                {% if report.status == "Resolved" %}
                     <div class="report-box">
                         <a href="{% url 'a10app:view_report' report.id %}">
                             {% if user|has_group:"site_admin" and report.flagged > 0%}
@@ -157,8 +206,7 @@
                     </div>
 
             
-                {% endif %}
-                
+
         {% endfor %}
     {% else %}
                 <p>No reports have been made.</p>
