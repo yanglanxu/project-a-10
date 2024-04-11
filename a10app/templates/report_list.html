@@ -68,7 +68,7 @@
                 {% for report in reports %}
                     <li>
                         <a href="{% url 'a10app:view_report' report.id %}">
-                            <strong>{{ report.title }}</strong> - User: {{ report.user.username }} - {{ report.text }}
+                            <strong>{{ report.title }}</strong> | Location: {{ report.location }} | User: {{ report.user.username }} | Details: {{ report.text }}
                         </a>
                     </li>
                 {% endfor %}

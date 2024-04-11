@@ -44,6 +44,7 @@ class ReportFormView(FormView):
             if not request.POST.get("anon"):
                 report.user=User.objects.get(id=request.user.id)
         report.text = form.cleaned_data["text"]
+        report.location = form.cleaned_data["location"]
         report.urgency = form.cleaned_data["urgency"]
         report.save()
         files = form.cleaned_data["files"]
