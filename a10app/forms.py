@@ -21,6 +21,7 @@ class MultipleFileField(forms.FileField):
 class ReportForm(forms.Form):
     title = forms.CharField(max_length=500)
     text = forms.CharField(max_length=2000, required=False)
+    location = forms.CharField(max_length=500, required=False)
     files = MultipleFileField()
     URGENCY_CHOICES = [
         (1, '1 - Not urgent'),

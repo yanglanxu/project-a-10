@@ -61,6 +61,7 @@
     </style>
 </head>
 <body>
+{% load auth_extras %}
     <div class="container">
         <h1>Report List</h1>
         <ul>
@@ -68,7 +69,7 @@
                 {% for report in reports %}
                     <li>
                         <a href="{% url 'a10app:view_report' report.id %}">
-                            <strong>{{ report.title }}</strong> - User: {{ report.user.username }} - {{ report.text }}
+                            <strong>{{ report.title }}</strong> | Location: {{ report.location }} | User: {{ report.user.username }} | Details: {{ report.text }} | {% if user|has_group:"site_admin" and report.flagged > 0%}<font color="red">Flagged: {{ report.flagged }} times</font>{% endif %}
                         </a>
                     </li>
                 {% endfor %}

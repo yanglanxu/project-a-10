@@ -41,10 +41,11 @@ class ReportFormView(FormView):
         report = Report()
         report.title = form.cleaned_data["title"]
         if not request.user.is_anonymous:
-            report.user=User.objects.get(id=request.user.id)
+            if not request.POST.get("anon"):
+                report.user=User.objects.get(id=request.user.id)
         report.text = form.cleaned_data["text"]
+        report.location = form.cleaned_data["location"]
         report.urgency = form.cleaned_data["urgency"]
-        # report.reviewed = False
         report.save()
         files = form.cleaned_data["files"]
         for f in files:
@@ -56,7 +57,6 @@ class ReportFormView(FormView):
 
 def report_list(request):
     reports = Report.objects.all()
-    print(reports)
     return render(request, "report_list.html", {"reports" : reports})
 
 def view_report(request, report_id):
@@ -97,6 +97,11 @@ def delete(request, report_id):
     report.delete()
     return redirect("a10app:user_page")
 
+def flag(request, report_id):
+    report = Report.objects.get(id=report_id)
+    report.flagged += 1
+    report.save()
+    return redirect("a10app:view_report",report_id=report_id)
 
 def search_reports(request):
     search_parameter = request.POST["search_parameters"]
@@ -108,3 +113,4 @@ def search_reports(request):
 
     reports = Report.objects.filter(q_filter)
     return render(request, "main_page.html", {"reports": reports})
+
