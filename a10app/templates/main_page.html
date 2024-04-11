@@ -195,6 +195,9 @@
 
                     <div class="report-box">
                         <a href="{% url 'a10app:view_report' report.id %}">
+                            {% if user|has_group:"site_admin" and report.flagged > 0%}
+                            <div class="report-username"><font color="red">Flagged: {{ report.flagged }} times</font></div>
+                            {% endif %}
                             <div class="report-title">{{ report.title }}</div></a>
                             <div class="report-username">Location: {{ report.location }}</div>
                             <div class="report-username">User: {{ report.user.username }}</div>

@@ -94,6 +94,11 @@ def delete(request, report_id):
     report.delete()
     return redirect("a10app:user_page")
 
+def flag(request, report_id):
+    report = Report.objects.get(id=report_id)
+    report.flagged += 1
+    report.save()
+    return redirect("a10app:view_report",report_id=report_id)
 
 def search_reports(request):
     search_parameter = request.POST["search_parameters"]
@@ -105,3 +110,4 @@ def search_reports(request):
 
     reports = Report.objects.filter(q_filter)
     return render(request, "main_page.html", {"reports": reports})
+

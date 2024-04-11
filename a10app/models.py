@@ -14,6 +14,7 @@ class Report(models.Model):
     admin_comments = models.TextField(blank=True, max_length=2000)
     status = models.CharField(default="New", max_length=50)
     location = models.TextField(blank=True, max_length=2000)
+    flagged = models.IntegerField(default=0)
 
 class ReportFile(models.Model):
     file = models.FileField(upload_to="media/")

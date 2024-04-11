@@ -67,6 +67,7 @@
         {% if request.user|has_group:"site_admin" %}
         <p><strong>Status:</strong> {{ report.status }}</p>
         <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
+        <p><font color="red"><strong>Flagged:</strong> {{ report.flagged }} times</font></p>
         {% elif user.is_authenticated and report.user.id == user.id%}
                 <p><strong>Status:</strong> {{ report.status }}</p>
         <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
@@ -101,6 +102,13 @@
                 </div>
         </form>
     {% endif %}
+
+        <form action="{% url 'a10app:flag_report' report.id%}" method="post" enctype='multipart/form-data'>
+            {% csrf_token %}
+                <div class="button_position">
+                    <input type="submit" class="mark_as_resolved" value="Flag this Report as Inaccurate">
+                </div>
+        </form>
     <div class="footer">
             <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
         </div>
