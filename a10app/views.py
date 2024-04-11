@@ -69,7 +69,10 @@ def view_report(request, report_id):
             report.save()
 
     files = ReportFile.objects.filter(report=report)
-    return render(request, "view_report.html", {"report" : report, "files" : files})
+    pdf = ReportFile.objects.filter(report=report, content_type="application/pdf")
+    text = ReportFile.objects.filter(report=report, content_type="text/plain")
+    images = ReportFile.objects.filter(report=report ,content_type__contains="image")
+    return render(request, "view_report.html", {"report" : report, "pdf" : pdf, "text" : text, "images" : images})
 
 def mark_report_as_resolved(request, report_id):
     report = Report.objects.get(id=report_id)
