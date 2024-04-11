@@ -8,6 +8,7 @@ from .forms import ReportForm
 from .models import User, Report, ReportFile
 from a10app.templatetags.auth_extras import has_group
 from django.views.decorators.http import require_POST
+from django.db.models import Q
 
 
 def index(request):
@@ -16,7 +17,8 @@ def index(request):
     return render(request, "index.html")
 
 def main_page(request):
-    return render(request, "main_page.html", {"reports": Report.objects.all()})
+    reports = Report.objects.filter(status="Resolved")
+    return render(request, "main_page.html", {"reports": reports})
 
 def logout_view(request):
     logout(request)
@@ -50,6 +52,8 @@ class ReportFormView(FormView):
             new_upload.save()
         return super().form_valid(form)
 
+
+
 def report_list(request):
     reports = Report.objects.all()
     return render(request, "report_list.html", {"reports" : reports})
@@ -65,7 +69,6 @@ def view_report(request, report_id):
 
     files = ReportFile.objects.filter(report=report)
     return render(request, "view_report.html", {"report" : report, "files" : files})
-
 
 def mark_report_as_resolved(request, report_id):
     report = Report.objects.get(id=report_id)
@@ -89,3 +92,15 @@ def delete(request, report_id):
         return redirect("/")
     report.delete()
     return redirect("a10app:user_page")
+
+
+def search_reports(request):
+    search_parameter = request.POST["search_parameters"]
+    #reports = Report.objects.filter(title__iregex = search_parameter, status__iregex = search_parameter)
+
+    q_filter = Q()
+    for field in ["title", "status", "text"]:
+        q_filter |= Q(**{f"{field}__icontains": search_parameter})
+
+    reports = Report.objects.filter(q_filter)
+    return render(request, "main_page.html", {"reports": reports})
