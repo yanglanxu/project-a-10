@@ -41,10 +41,10 @@ class ReportFormView(FormView):
         report = Report()
         report.title = form.cleaned_data["title"]
         if not request.user.is_anonymous:
-            report.user=User.objects.get(id=request.user.id)
+            if not request.POST.get("anon"):
+                report.user=User.objects.get(id=request.user.id)
         report.text = form.cleaned_data["text"]
         report.urgency = form.cleaned_data["urgency"]
-        # report.reviewed = False
         report.save()
         files = form.cleaned_data["files"]
         for f in files:
@@ -56,7 +56,6 @@ class ReportFormView(FormView):
 
 def report_list(request):
     reports = Report.objects.all()
-    print(reports)
     return render(request, "report_list.html", {"reports" : reports})
 
 def view_report(request, report_id):

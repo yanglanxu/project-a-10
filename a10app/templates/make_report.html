@@ -120,6 +120,7 @@
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" placeholder="Enter title..."><br>
 
+
             <div class="likert-scale">
                 <label for="urgency">Urgency:</label>
                 <select id="urgency" name="urgency">
@@ -133,6 +134,10 @@
 
             <textarea id="comments" name="text" placeholder="Add your comments here..."></textarea><br>
             <input type="file" name="files" id="files" multiple><br>
+            {% if user.is_authenticated %}
+            <input type="checkbox" id="anonymous" name="anon" value="anon">
+            <label for="anonymous"> Submit report anonymously (you will not be able to track the status of your report)</label><br>
+            {% endif %}
             <input type="submit" value="Submit">
         </form>
     </div>
