@@ -15,5 +15,6 @@ urlpatterns = [
     path("<int:report_id>/view_report/", views.view_report, name="view_report"),
     path('report/<int:report_id>/mark_as_resolved/', views.mark_report_as_resolved, name='mark_report_as_resolved'),
     path('report/<int:report_id>/flag/', views.flag, name='flag_report'),
-    path('search/', views.search_reports, name='search_reports')
+    path('search/', views.search_reports, name='search_reports'),
+    path('report/<int:report_id>/save_user_comments/', views.save_user_comments, name='save_user_comments'),
 ]
