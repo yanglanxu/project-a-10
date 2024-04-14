@@ -36,6 +36,17 @@
         .mark_as_resolved:hover {
             background-color: #0e3b6b;
         }
+        .save_user_comments {
+            background-color: #1b4d89;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+        }
         .button_position {
             margin-top: 20px;
             text-align: center;
@@ -170,8 +181,29 @@
                     <input type="submit" class="mark_as_resolved" value="Flag this Report as Inaccurate">
                 </div>
         </form>
+
+        {% if request.user %}
+        <form action="{% url 'a10app:save_user_comments' report.id%}" method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <label for="user_comments">Your Comments:</label>
+        <textarea id="user_comments" name="user_comments" placeholder="User comments here"></textarea><br>
+        <div class="button_position">
+            <input type="submit" class="save_user_comments" value="Submit Comments">
+        </div>
+        </form>
+    {% endif %}
+
+    <h2>Comments</h2>
+    {% for comment in report.comments.all %}
+        {% if request.user|has_group:"site_admin" or user.is_authenticated and comment.user.username == user.username  %}
+            <p><strong>{{ comment.user.username }}</strong> ({{ comment.created_at }}): {{ comment.content }}</p>
+        {% endif %}
+    {% endfor %}
+
     <div class="footer">
             <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
         </div>
+
+
 </body>
 </html>

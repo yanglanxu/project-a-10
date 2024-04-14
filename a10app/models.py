@@ -8,7 +8,7 @@ from django.dispatch import receiver
 
 class Report(models.Model):
     title = models.TextField(blank=True, max_length=500)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     text = models.TextField(blank=True, max_length=2000)
     urgency = models.IntegerField(default=1)
     admin_comments = models.TextField(blank=True, max_length=2000)
@@ -25,6 +25,11 @@ class ReportFile(models.Model):
         self.content_type = self.file.file.content_type
         super().save(*args, **kwargs)
 
+class Comment(models.Model):
+    report = models.ForeignKey(Report, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(blank=True, max_length=2000)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 @receiver(models.signals.post_delete, sender=ReportFile)
 def auto_delete_file_on_delete(sender, instance, **kwargs):

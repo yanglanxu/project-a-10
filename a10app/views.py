@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic.edit import FormView
 from .forms import ReportForm
-from .models import User, Report, ReportFile
+from .models import User, Report, ReportFile, Comment
 from a10app.templatetags.auth_extras import has_group
 from django.views.decorators.http import require_POST
 from django.db.models import Q
@@ -82,6 +82,15 @@ def mark_report_as_resolved(request, report_id):
 
     return render(request, "report_list.html", {"reports" : Report.objects.all()})
 
+def save_user_comments(request, report_id):
+        report = Report.objects.get(id=report_id)
+        # Get the comment content from the form
+        user_comments = request.POST["user_comments"]
+        comment = Comment(report=report, user=request.user, content=user_comments)
+        comment.save()
+        
+        # Redirect back to the same report page
+        return view_report(request, report_id)
 
 def user_page(request):
     report_list = []
