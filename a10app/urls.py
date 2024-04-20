@@ -5,7 +5,8 @@ from . import views
 
 app_name = "a10app"
 urlpatterns = [
-    path("", views.main_page, name="main_page"),
+    path("", views.opening_page, name="opening_page"),
+    path("main", views.main_page, name="main_page"),
     path("logout", views.logout),
     path("report", views.ReportFormView.as_view(), name='report'),
     # path("welcome", views.isAdmin)

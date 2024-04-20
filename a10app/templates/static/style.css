@@ -1,0 +1,20 @@
+body {
+    --accent_color: #1b4d89;
+    min-width: 1450px;
+}
+/***************** Opening Page *****************/
+.opening_page-box{
+    position: absolute;
+    margin: auto;
+    text-align: center;
+    top: 40%;
+}
+.opening_page-title{
+    font-size: 30px;
+}
+.opening_page-subtitle{
+    font-size: 20px;
+}
+.opening_page-return_button{
+    font-size: 20px;
+}

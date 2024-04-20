@@ -16,6 +16,9 @@ def index(request):
 
     return render(request, "index.html")
 
+def opening_page(request):
+    return render(request, "opening_page.html")
+
 def main_page(request):
     reports = Report.objects.filter(status="Resolved")
     return render(request, "main_page.html", {"reports": reports})
