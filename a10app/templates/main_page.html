@@ -4,34 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page - All Reports</title>
-
+<!--    <link rel="stylesheet" href="static/style.css">-->
     <style>
         body{
-            --accent_color: #90caee;
+            --accent_color_1: #90caee;
             --accent_color_2: #126096;
             --background-color: #FEFBF1;
-            --white: #fff;
+            --white-color: #FFFFFF;
             min-width: 1450px;
-            background-color: var(--white);
+            margin: 0;
+            padding: 0;
         }
         .header{
-            background-color: var(--accent_color);
-            padding: 10px;
+            background-color: var(--accent_color_1);
+            padding: 0px;
             margin-bottom: 50px;
         }
         .title{
-            color: var(--white);
+            color: var(--accent_color_2);
             display: inline-block;
-            margin-right: 50%;
+            margin-left: 20px;
         }
         .report-box {
-            border: 2px solid #ccc;
+            border: 2px solid;
+            border-color: var(--accent_color_2);
             border-radius: 10px;
             padding: 20px;
             width: 40%;
             margin: auto;
             text-align: center;
-            background-color: #c8d8e4;
             position: relative;
             margin-bottom: 20px;
         }
@@ -39,75 +40,92 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
-            color: var(--accent_color);
+            text-decoration: none;
+            color: var(--accent_color_2);
         }
         .login_button{
-            background-color: var(--accent_color);
-            color: white;
+            background-color: var(--white-color);
+            color: var(--accent_color_2);
             border-radius: 10px;
             border-color: var(--accent_color);
             padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-top: 10px;
+            margin-right: 20px;
             text-decoration: none;
+            float: right;
+        }
+        .welcome_name{
+            color: var(--accent_color_1);
+            font-weight: bold;
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 30px;
         }
         .see_all_reports{
-            background-color: var(--accent_color);
-            color: white;
-            border-radius: 10px;
+            background-color: var(--white-color);
+            color: var(--accent_color_2);
+            border-radius: 20px;
             border-color: var(--accent_color);
-            padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
+            padding: 10px 20px 10px 20px;
+            font-size: 18px;
+            margin-top: 20px;
+            margin-right: 20px;
             text-decoration: none;
-            margin-left: 10px;
+            float: right;
         }
         .logout_button{
-            background-color: var(--accent_color);
-            color: white;
-            border-radius: 10px;
+            background-color: var(--white-color);
+            color: var(--accent_color_2);
+            border-radius: 20px;
             border-color: var(--accent_color);
-            padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
+            padding: 10px 20px 10px 20px;
+            font-size: 18px;
+            margin-top: 20px;
+            margin-right: 20px;
             text-decoration: none;
+            float: right;
         }
         .view_reports{
-            background-color: var(--accent_color);
+            background-color: var(--accent_color_2);
             color: white;
-            border-radius: 10px;
-            border-color: var(--accent_color);
+            border-radius: 30px;
+            border-color: var(--accent_color_2);
             padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 30px;
             text-decoration: none;
+            display: block;
+            text-align: center;
             margin-left: 10px;
         }
         .report-text {
             font-size: 16px;
-            color: var(--accent_color);
+            color: var(--accent_color_1);
         }
         .report-username {
             font-size: 16px;
-            color: var(--accent_color);
+            color: var(--accent_color_1);
         }
         .button_position{
-            position: relative;
+            position: absolute;
+            top: 30%;
             margin: auto;
-            width: 60%;
-            display: flex;
-            margin-bottom: 50px;
+            display: inline-block;
+            z-index: 2;
         }
         .create_report_button{
-            background-color: var(--accent_color);
+            background-color: var(--accent_color_2);
             color: white;
-            border-radius: 10px;
-            border-color: var(--accent_color);
+            border-radius: 30px;
+            border-color: var(--accent_color_2);
             padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 30px;
             text-decoration: none;
-            margin-right: 10px;
+            display: block;
+            text-align: center;
+            margin-left: 10px;
         }
         .search{
             background-color: var(--accent_color);
@@ -125,23 +143,26 @@
             display: inline-block;
             position: relative;
             resize: none;
-            border-radius: 10px;
+            border-radius: 20px;
             font-size: 15px;
             cursor: text;
-            margin-left: 10px;
+            height: 20px;
+            padding: 10px;
+            margin: auto;
+            margin-bottom: 30px;
         }
         .form{
             display: flex;
         }
         .reports_list{
-            color: var(--accent_color);
+            color: var(--accent_color_2);
             margin: auto;
             font-size: 25px;
             font-weight: bold;
             width: 25%;
             text-align: center;
             border-bottom: solid;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
     </style>
 </head>
@@ -156,7 +177,7 @@
         {% endif %}
 
         {% if user.is_authenticated %}
-        <a class="logout_button" href="{% url 'logout'%}">You are signed in as {{user.username}}. Logout?</a>
+        <a class="logout_button" href="{% url 'logout'%}">Logout?</a>
         {% endif %}
 
 
@@ -164,14 +185,11 @@
         <p>You are an admin, {{user.username}}!</p>
         {% endif %}
     </div>
+    {% if user.is_authenticated %}
+        <div class ="welcome_name"> Welcome {{user.username}}!</div>
+    {% endif %}
     <div class="button_position">
         <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
-
-        <form class="form" action="{% url 'a10app:search_reports'%}" method="post" enctype='multipart/form-data'>
-            {% csrf_token %}
-            <textarea id="search_parameters" name="search_parameters" class="search_field" placeholder="Search reports by title, status, or text"></textarea><br>
-            <input type="submit" class="search" value="Search">
-        </form>
 
         {% if user.is_authenticated %}
             <a class="view_reports" href="{% url 'a10app:user_page'%}">View reports you've made</a>
@@ -183,6 +201,27 @@
     </div>
     <div class="reports_list">List of Current Reports</div>
 
+    <form id="search_form" class="form" action="{% url 'a10app:search_reports'%}" method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <textarea  onkeydown=handleKeyDown(event) id="search_parameters" name="search_parameters" class="search_field" placeholder="Search reports by title, status, or text"></textarea><br>
+<!--            <input type="submit" class="search" value="Search">-->
+    </form>
+
+    <script>
+        //search_form = document.getElementById("search_form")
+        //text_area = document.getElementById("search_parameters")
+        handleKeyDown = function(events) {
+            if (events.which === 13) {
+                console.log("hello")
+                if (!events.repeat) {
+                    const newEvent = new Event("submit", {cancelable: true});
+                    events.target.form.dispatchEvent(newEvent);
+                }
+
+                events.preventDefault(); // Prevents the addition of a new line in the text field
+            }
+        }
+    </script>
 
     {% if reports %}
         {% for report in reports %}
