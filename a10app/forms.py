@@ -33,27 +33,18 @@ class ReportForm(forms.Form):
     urgency = forms.ChoiceField(choices=URGENCY_CHOICES, widget=forms.RadioSelect)
 
     def clean_title(self):
-        """
-        Custom validation to ensure that the title field is not empty.
-        """
         title = self.cleaned_data.get('title')
         if not title:
             raise forms.ValidationError("Please provide a title for the report.")
         return title
 
     def clean_location(self):
-        """
-        Custom validation to ensure that the title field is not empty.
-        """
         location = self.cleaned_data.get('location')
         if not location:
             raise forms.ValidationError("Please provide a location for the report.")
         return location
 
     def clean_text(self):
-        """
-        Custom validation to ensure that the title field is not empty.
-        """
         text = self.cleaned_data.get('text')
         if not text:
             raise forms.ValidationError("Please provide a comment for the report.")
