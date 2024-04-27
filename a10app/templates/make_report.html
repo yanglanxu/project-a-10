@@ -107,19 +107,26 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="footer">
-        <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
-    </div>
+            <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
+        </div>
         <h1>Report Form</h1>
         <form action="report" method="post" enctype='multipart/form-data'>
             {% csrf_token %}
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" placeholder="Enter title..."><br>
-
+            <input type="text" id="title" name="title" placeholder="Enter title...">
+            {% if form.errors.title %}
+                <p class="error-message">{{ form.errors.title }}</p>
+            {% endif %}<br>
 
             <div class="likert-scale">
                 <label for="urgency">Urgency:</label>
@@ -142,6 +149,5 @@
             <input type="submit" value="Submit">
         </form>
     </div>
-
 </body>
 </html>
