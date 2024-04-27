@@ -36,6 +36,17 @@
         .mark_as_resolved:hover {
             background-color: #0e3b6b;
         }
+        .save_user_comments {
+            background-color: #1b4d89;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+        }
         .button_position {
             margin-top: 20px;
             text-align: center;
@@ -56,6 +67,45 @@
             box-sizing: border-box;
         }
 
+        div.spoiler {
+            overflow: hidden;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        div.spoiler img {
+            vertical-align: bottom;
+            filter: blur(20px);
+            transition: 0.3s;
+        }
+
+        .spoiler-button {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3rem;
+            line-height: 3rem;
+            width: 50%;
+            padding: 0 1rem;
+            font-size: 1rem;
+            margin: auto;
+            background-color: rgba(0,0,0,0.8);
+            color: #FFF;
+            text-align: center;
+            border-radius: 1rem;
+            cursor: pointer;
+        }
+
+        div.spoiler input:checked ~ img {
+            filter: none;
+        }
+
+        div.spoiler input:checked, div.spoiler input:checked ~ label {
+            display: none;
+        }
     </style>
 
 
@@ -67,29 +117,52 @@
         {% if request.user|has_group:"site_admin" %}
         <p><strong>Status:</strong> {{ report.status }}</p>
         <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
+        <p><font color="red"><strong>Flagged:</strong> {{ report.flagged }} times</font></p>
         {% elif user.is_authenticated and report.user.id == user.id%}
                 <p><strong>Status:</strong> {{ report.status }}</p>
         <p><strong>Admin Comments:</strong> {{ report.admin_comments }}</p>
             {% endif %}
-
+        <p><strong>Location:</strong> {{ report.location }}</p>
         <p><strong>Text:</strong> {{ report.text }}</p>
     </div>
 
     <!-- Files Section -->
     <h2>Files</h2>
     <ul>
-        {% for file in files %}
-            <li>
+        <p><strong>Text Files</strong></p>
+        {% for text in text %}
                 <embed
-                    src="{{file.file.url}}"
+                    src="{{text.file.url}}"
+                    type="text/plain"
+                    frameBorder="0"
+                    scrolling="auto"
+                    height="500px"
+                    width="75%"
+                >
+        {% endfor %}
+
+        <p><strong>PDFs</strong></p>
+        {% for pdf in pdf %}
+                <embed
+                    src="{{pdf.file.url}}"
                     type="application/pdf"
                     frameBorder="0"
                     scrolling="auto"
                     height="500px"
                     width="75%"
                 >
-            </li>
         {% endfor %}
+        <p><strong>Images</strong></p>
+        {% for image in images %}
+        <div class="button_position">
+                <div class="spoiler">
+                    <input id="spoiler-check" type="checkbox" style="opacity:0" >
+                    <img src="{{image.file.url}}" alt="Your alt text, very important!" height="500px">
+                    <label for="spoiler-check" class="spoiler-button">Click to unblur image (may contain explicit content)</div>
+                </div>
+        </div>
+        {% endfor %}
+
     </ul>
 
     {% if request.user|has_group:"site_admin" %}
@@ -101,8 +174,36 @@
                 </div>
         </form>
     {% endif %}
+
+        <form action="{% url 'a10app:flag_report' report.id%}" method="post" enctype='multipart/form-data'>
+            {% csrf_token %}
+                <div class="button_position">
+                    <input type="submit" class="mark_as_resolved" value="Flag this Report as Inaccurate">
+                </div>
+        </form>
+
+        {% if request.user %}
+        <form action="{% url 'a10app:save_user_comments' report.id%}" method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <label for="user_comments">Your Comments:</label>
+        <textarea id="user_comments" name="user_comments" placeholder="User comments here"></textarea><br>
+        <div class="button_position">
+            <input type="submit" class="save_user_comments" value="Submit Comments">
+        </div>
+        </form>
+    {% endif %}
+
+    <h2>Comments</h2>
+    {% for comment in report.comments.all %}
+        {% if request.user|has_group:"site_admin" or user.is_authenticated and comment.user.username == user.username  %}
+            <p><strong>{{ comment.user.username }}</strong> ({{ comment.created_at }}): {{ comment.content }}</p>
+        {% endif %}
+    {% endfor %}
+
     <div class="footer">
             <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
         </div>
+
+
 </body>
 </html>
