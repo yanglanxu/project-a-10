@@ -46,11 +46,11 @@
         .login_button{
             background-color: var(--white-color);
             color: var(--accent_color_2);
-            border-radius: 10px;
+            border-radius: 20px;
             border-color: var(--accent_color);
-            padding: 20px;
+            padding: 10px 20px 10px 20px;
             font-size: 18px;
-            margin-top: 10px;
+            margin-top: 20px;
             margin-right: 20px;
             text-decoration: none;
             float: right;
@@ -237,11 +237,11 @@
                 </script> {% endcomment %}
 
                     <div class="report-box">
-                        <a href="{% url 'a10app:view_report' report.id %}">
+                        <a class="report-title" href="{% url 'a10app:view_report' report.id %}"> {{ report.title }}</a>
                             {% if user|has_group:"site_admin" and report.flagged > 0%}
                             <div class="report-username"><font color="red">Flagged: {{ report.flagged }} times</font></div>
                             {% endif %}
-                            <div class="report-title">{{ report.title }}</div></a>
+
                             <div class="report-username">Location: {{ report.location }}</div>
                             <div class="report-username">User: {{ report.user.username }}</div>
                             <div class="report-text">Details: {{ report.text }}</div>
