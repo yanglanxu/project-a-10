@@ -192,16 +192,6 @@
 
     {% if reports %}
         {% for report in reports %}
-<!--            <div class="report-box" onclick="goToReport()"> &lt;!&ndash;report.id &ndash;&gt;-->
-<!--                <div class="report-title">{{ report.title }}</div>-->
-<!--                <div class="report-username">{{ report.user.username }}</div>-->
-<!--                <div class="report-text">{{ report.text }}</div>-->
-<!--            </div>-->
-
-                {% comment %} console.log(report.reviewed) {% endcomment %}
-                {% comment %} <script>
-                    console.log('testing');
-                </script> {% endcomment %}
 
                     <div class="report-box">
                         <a href="{% url 'a10app:view_report' report.id %}">
@@ -221,20 +211,6 @@
     {% else %}
                 <p>No reports have been made.</p>
     {% endif %}
-<!--    <script>-->
-<!--        goToReport = function(){-->
-<!--            //print(report.id)-->
-<!--            report_id=1-->
-<!--            window.location.href = "{% url 'a10app:view_report' 1 %}";-->
-<!--            //window.location.href = "{% url 'logout'%}";-->
-<!--        };-->
-<!--    </script>-->
-
-    <br>
-    <br>
-
-    <!-- Pagination or Scroll -->
-    <!-- Add pagination or scrolling functionality here later -->
 
 </body>
 </html>
