@@ -91,14 +91,12 @@
             color: #fff;
             border: none;
             border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 8px 15px;
+            font-size: 14px;
             text-decoration: none;
             cursor: pointer;
-            display: block;
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
+            display: inline-block;
+            margin-top: 10px;
         }
 
         .error-message {
@@ -116,7 +114,7 @@
             {% csrf_token %}
 
             {% if form.errors %}
-                <p class="error-message">You must fill in the title, location, and text.</p>
+                <p class="error-message">{{ form.errors }}</p>
             {% endif %}
 
             <label for="title">Title:</label>
