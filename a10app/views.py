@@ -11,11 +11,6 @@ from django.views.decorators.http import require_POST
 from django.db.models import Q
 from django.contrib import messages
 
-def index(request):
-    # print("why am I in here booo")
-
-    return render(request, "index.html")
-
 def main_page(request):
     reports = Report.objects.filter(status="Resolved")
     return render(request, "main_page.html", {"reports": reports})
