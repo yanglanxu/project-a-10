@@ -20,8 +20,8 @@ class MultipleFileField(forms.FileField):
 
 class ReportForm(forms.Form):
     title = forms.CharField(max_length=500)
-    text = forms.CharField(max_length=2000, required=False)
-    location = forms.CharField(max_length=500, required=False)
+    text = forms.CharField(max_length=2000, required=True)
+    location = forms.CharField(max_length=500, required=True)
     files = MultipleFileField()
     URGENCY_CHOICES = [
         (1, '1 - Not urgent'),
@@ -40,3 +40,21 @@ class ReportForm(forms.Form):
         if not title:
             raise forms.ValidationError("Please provide a title for the report.")
         return title
+
+    def clean_location(self):
+        """
+        Custom validation to ensure that the title field is not empty.
+        """
+        location = self.cleaned_data.get('location')
+        if not location:
+            raise forms.ValidationError("Please provide a location for the report.")
+        return location
+
+    def clean_text(self):
+        """
+        Custom validation to ensure that the title field is not empty.
+        """
+        text = self.cleaned_data.get('text')
+        if not text:
+            raise forms.ValidationError("Please provide a comment for the report.")
+        return text

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Form</title>
     <style>
+        /* CSS styles */
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -93,10 +95,10 @@
             transition: background-color 0.3s;
         }
 
-
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
         .return-button {
             background-color: #1b4d89;
             color: #fff;
@@ -111,6 +113,7 @@
         .error-message {
             color: red;
             font-size: 14px;
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -122,11 +125,12 @@
         <h1>Report Form</h1>
         <form action="report" method="post" enctype='multipart/form-data'>
             {% csrf_token %}
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" placeholder="Enter title...">
+
             {% if form.errors.title %}
                 <p class="error-message">{{ form.errors.title }}</p>
-            {% endif %}<br>
+            {% endif %}
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" placeholder="Enter title..."><br>
 
             <div class="likert-scale">
                 <label for="urgency">Urgency:</label>
@@ -139,12 +143,21 @@
                 </select>
             </div>
 
+            {% if form.errors.location %}
+                <p class="error-message">{{ form.errors.location }}</p>
+            {% endif %}
+            <label for="location">Location:</label>
             <input type="text" id="location" name="location" placeholder="Location of the incident"><br>
+
+            {% if form.errors.text %}
+                <p class="error-message">{{ form.errors.text }}</p>
+            {% endif %}
             <textarea id="comments" name="text" placeholder="Add your comments here..."></textarea><br>
+
             <input type="file" name="files" id="files" multiple><br>
             {% if user.is_authenticated %}
-            <input type="checkbox" id="anonymous" name="anon" value="anon">
-            <label for="anonymous"> Submit report anonymously (you will not be able to track the status of your report)</label><br>
+                <input type="checkbox" id="anonymous" name="anon" value="anon">
+                <label for="anonymous"> Submit report anonymously (you will not be able to track the status of your report)</label><br>
             {% endif %}
             <input type="submit" value="Submit">
         </form>
