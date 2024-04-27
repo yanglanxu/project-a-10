@@ -123,7 +123,6 @@ def flag(request, report_id):
 
 def search_reports(request):
     search_parameter = request.POST["search_parameters"]
-    #reports = Report.objects.filter(title__iregex = search_parameter, status__iregex = search_parameter)
 
     q_filter = Q()
     for field in ["title", "status", "text"]:

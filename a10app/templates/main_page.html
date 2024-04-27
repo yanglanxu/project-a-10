@@ -162,12 +162,22 @@
     </div>
     <div class="button_position">
         <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
+        <div onkeypress="return submit(event)">
+            <form id="search" class="form" action="{% url 'a10app:search_reports'%}" method="post" onkeypress="return myFunction(event)">
+                {% csrf_token %}
+                <textarea id="search_parameters" name="search_parameters" class="search_field" placeholder="Search reports by title, status, or text"></textarea><br>
+                <input type="submit" class="search" value="Search">
+            </form>
+        </div>
 
-        <form class="form" action="{% url 'a10app:search_reports'%}" method="post" enctype='multipart/form-data'>
-            {% csrf_token %}
-            <textarea id="search_parameters" name="search_parameters" class="search_field" placeholder="Search reports by title, status, or text"></textarea><br>
-            <input type="submit" class="search" value="Search">
-        </form>
+        <script>
+        function submit(e) {
+           if((e && e.keyCode == 13) || e == 0) {
+             document.forms.search.submit();
+             document.forms.search.reset();
+           }
+        }
+        </script>
 
         {% if user.is_authenticated %}
             <a class="view_reports" href="{% url 'a10app:user_page'%}">View reports you've made</a>
