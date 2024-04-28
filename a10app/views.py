@@ -117,6 +117,7 @@ def flag(request, report_id):
 
 def search_reports(request):
     search_parameter = request.POST["search_parameters"]
+    search_parameter = search_parameter.strip()
     #reports = Report.objects.filter(title__iregex = search_parameter, status__iregex = search_parameter)
 
     q_filter = Q()
@@ -124,5 +125,5 @@ def search_reports(request):
         q_filter |= Q(**{f"{field}__icontains": search_parameter})
 
     reports = Report.objects.filter(q_filter)
-    return render(request, "main_page.html", {"reports": reports})
+    return render(request, "main_page.html", {"reports": reports, "search_parameter": search_parameter})
 
