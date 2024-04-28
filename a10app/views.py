@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import logout
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
@@ -123,3 +123,20 @@ def search_reports(request):
     reports = Report.objects.filter(q_filter)
     return render(request, "main_page.html", {"reports": reports})
 
+def update_comment(request):
+    print("In update_comment")
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        # print("Past if")
+        comment_id = request.POST.get('comment_id')
+        content = request.POST.get('content')
+        print("Comment ID: ", comment_id)
+        print("Content: ", content)
+
+        comment = Comment.objects.get(id=comment_id, user=request.user)  # Ensure user can only edit their own comment
+        if comment:
+            comment.content = content
+            comment.save()
+            return JsonResponse({'status': 'success', 'message': 'Comment updated successfully.'})
+    return JsonResponse({'status': 'error', 'message': 'Failed to update comment.'})
+
+    
