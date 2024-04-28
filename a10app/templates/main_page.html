@@ -203,10 +203,12 @@
 
     </div>
     {% if user.is_authenticated %}
-        <div class ="welcome_name"> Welcome {{user.username}}!</div>
+
         {% if request.user|has_group:"site_admin" %}
-            <p style="text-align: center;">You are an admin</p>
-            {% endif %}
+            <div class ="welcome_name"> Welcome admin {{user.username}}!</div>
+        {% else %}
+            <div class ="welcome_name"> Welcome {{user.username}}!</div>
+        {% endif %}
     {% endif %}
     <div class="button_position">
         <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
