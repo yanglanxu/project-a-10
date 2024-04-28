@@ -129,6 +129,6 @@ def search_reports(request):
     for field in ["title", "status", "text"]:
         q_filter |= Q(**{f"{field}__icontains": search_parameter})
 
-    reports = Report.objects.filter(q_filter)
+    reports = Report.objects.filter(q_filter, status="Resolved")
     return render(request, "main_page.html", {"reports": reports, "search_parameter": search_parameter})
 
