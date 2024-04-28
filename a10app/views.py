@@ -9,7 +9,7 @@ from .models import User, Report, ReportFile, Comment
 from a10app.templatetags.auth_extras import has_group
 from django.views.decorators.http import require_POST
 from django.db.models import Q
-
+from django.contrib import messages
 
 def index(request):
     # print("why am I in here booo")
@@ -55,6 +55,15 @@ class ReportFormView(FormView):
             new_upload = ReportFile(report=report, file=f)
             new_upload.save()
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        """
+        If the form is invalid, re-render the page with error messages.
+        """
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"Error in {field}: {error}")
+        return super().form_invalid(form)
 
 
 

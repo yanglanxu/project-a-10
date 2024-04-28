@@ -98,6 +98,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

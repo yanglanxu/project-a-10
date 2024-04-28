@@ -19,17 +19,6 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            animation: fade 0.5s ease forwards;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
         }
 
         h1 {
@@ -93,33 +82,43 @@
             transition: background-color 0.3s;
         }
 
-
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
         .return-button {
             background-color: #1b4d89;
             color: #fff;
             border: none;
             border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 8px 15px;
+            font-size: 14px;
             text-decoration: none;
             cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="footer">
-        <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
-    </div>
         <h1>Report Form</h1>
         <form action="report" method="post" enctype='multipart/form-data'>
             {% csrf_token %}
+
+            {% if form.errors %}
+                <p class="error-message">{{ form.errors }}</p>
+            {% endif %}
+
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" placeholder="Enter title..."><br>
-
 
             <div class="likert-scale">
                 <label for="urgency">Urgency:</label>
@@ -132,16 +131,19 @@
                 </select>
             </div>
 
+            <label for="location">Location:</label>
             <input type="text" id="location" name="location" placeholder="Location of the incident"><br>
+
             <textarea id="comments" name="text" placeholder="Add your comments here..."></textarea><br>
+
             <input type="file" name="files" id="files" multiple><br>
             {% if user.is_authenticated %}
-            <input type="checkbox" id="anonymous" name="anon" value="anon">
-            <label for="anonymous"> Submit report anonymously (you will not be able to track the status of your report)</label><br>
+                <input type="checkbox" id="anonymous" name="anon" value="anon">
+                <label for="anonymous"> Submit report anonymously (you will not be able to track the status of your report)</label><br>
             {% endif %}
             <input type="submit" value="Submit">
         </form>
+        <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
     </div>
-
 </body>
 </html>
