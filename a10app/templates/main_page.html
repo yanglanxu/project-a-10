@@ -86,22 +86,6 @@
             text-align: center;
             margin-bottom: 30px;
         }
-        .see_all_reports{
-            background-color: var(--white-color);
-            color: var(--accent_color_2);
-            border-radius: 20px;
-            border-color: var(--accent_color);
-            padding: 10px 20px 10px 20px;
-            font-size: 18px;
-            margin-top: 20px;
-            margin-right: 20px;
-            text-decoration: none;
-            float: right;
-        }
-        .see_all_reports:hover{
-            background-color: var(--white-color);
-            color: var(--accent_color_2);
-        }
         .view_reports{
             background-color: var(--accent_color_2);
             color: white;
@@ -220,7 +204,7 @@
         {% endif %}
 
         {% if request.user|has_group:"site_admin" %}
-        <a class="see_all_reports" href="{% url 'a10app:list_reports'%}">See All Reports</a>
+        <a class="view_reports" href="{% url 'a10app:list_reports'%}">See All Reports</a>
         {% endif %}
     </div>
     <div class="reports_list">List of Current Reports</div>
@@ -269,7 +253,7 @@
 
                     </div>
 
-            
+
 
         {% endfor %}
     {% else %}
