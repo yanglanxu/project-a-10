@@ -193,23 +193,88 @@
                 </div>
         </form>
 
-        {% if request.user %}
-        <form action="{% url 'a10app:save_user_comments' report.id%}" method="post" enctype='multipart/form-data'>
-        {% csrf_token %}
-        <label for="user_comments">Your Comments:</label>
-        <textarea id="user_comments" name="user_comments" placeholder="User comments here"></textarea><br>
-        <div class="button_position">
-            <input type="submit" class="save_user_comments" value="Submit Comments">
-        </div>
-        </form>
-    {% endif %}
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'a10app:save_user_comments' report.id %}" method="post" enctype='multipart/form-data'>
+                {% csrf_token %}
+                <label for="user_comments">Your Comments:</label>
+                <textarea id="user_comments" name="user_comments" placeholder="User comments here" maxlength="2000" oninput="updateCounter()"></textarea><br>
+                <div id="charCount">Max Characters: 0/2000</div>
+                <div class="button_position">
+                    <input type="submit" class="save_user_comments" value="Submit Comments">
+                </div>
+            </form>
 
-    <h2>Comments</h2>
-    {% for comment in report.comments.all %}
-        {% if request.user|has_group:"site_admin" or user.is_authenticated and comment.user.username == user.username  %}
-            <p><strong>{{ comment.user.username }}</strong> ({{ comment.created_at }}): {{ comment.content }}</p>
+            <script>
+                function updateCounter() {
+                    var textArea = document.getElementById('user_comments');
+                    var charCount = document.getElementById('charCount');
+                    var userText = textArea.value.length;
+                    charCount.textContent = 'Max Characters: ' + userText + '/2000';
+                }
+
+                // Initialize counter on page load
+                window.onload = function() {
+                    updateCounter(); // This will set the initial character count to 0/2000
+                };
+            </script>
         {% endif %}
-    {% endfor %}
+
+        <h2>Comments</h2>
+            {% for comment in report.comments.all %}
+                <div class="comment-container">
+                    <p><strong>{{ comment.user.username }}</strong> ({{ comment.created_at }}): 
+                        <span id="comment_content-{{ comment.id }}">{{ comment.content }}</span>
+                        {% if user.is_authenticated and comment.user.username == user.username %}
+                        <a href="#" onclick="editComment({{ comment.id }}, event)" class="edit-link">Edit</a>
+                            <div id="edit-controls-{{ comment.id }}" class="edit-controls" style="display:none;">
+                                <textarea id="edit-content-{{ comment.id }}">{{ comment.content }}</textarea>
+                                <button onclick="saveComment({{ comment.id }})">Save</button>
+                                <button onclick="cancelEdit({{ comment.id }})">Cancel</button>
+                            </div>
+                        {% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+
+            <script>
+                function editComment(commentId) {
+                    event.preventDefault();
+                    document.getElementById('comment_content-' + commentId).style.display = 'none';
+                    document.getElementById('edit-controls-' + commentId).style.display = 'block';
+                }
+                
+                function cancelEdit(commentId) {
+                    document.getElementById('comment_content-' + commentId).style.display = 'block';
+                    document.getElementById('edit-controls-' + commentId).style.display = 'none';
+                }
+                
+                function saveComment(commentId) {
+                    var updatedContent = document.getElementById('edit-content-' + commentId).value;
+                    var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST',  '{% url "a10app:update_comment" %}', true); // Replace '/path/to/update-comment/' with the actual URL
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // Make sure this line is added
+                    xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.status === 'success') {
+                                document.getElementById('comment_content-' + commentId).textContent = updatedContent;
+                                cancelEdit(commentId);
+                            } else {
+                                alert('Error: ' + response.message);
+                            }
+                        }
+                    };
+                
+                    xhr.send('comment_id=' + encodeURIComponent(commentId) + '&content=' + encodeURIComponent(updatedContent));
+                }
+                
+                </script>
+                
 
     <div class="footer">
             <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
