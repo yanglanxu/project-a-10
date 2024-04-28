@@ -11,13 +11,9 @@ from django.views.decorators.http import require_POST
 from django.db.models import Q
 from django.contrib import messages
 
-def index(request):
-    # print("why am I in here booo")
-
-    return render(request, "index.html")
-
 def opening_page(request):
     return render(request, "opening_page.html")
+
 
 def main_page(request):
     reports = Report.objects.filter(status="Resolved")
@@ -127,7 +123,7 @@ def flag(request, report_id):
 def search_reports(request):
     search_parameter = request.POST["search_parameters"]
     search_parameter = search_parameter.strip()
-    #reports = Report.objects.filter(title__iregex = search_parameter, status__iregex = search_parameter)
+
 
     q_filter = Q()
     for field in ["title", "status", "text"]:

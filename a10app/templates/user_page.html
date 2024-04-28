@@ -14,8 +14,16 @@
         }
         .container {
             max-width: 800px;
-            margin: 0 auto;
-            padding-bottom: 60px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
         .report-box {
             border: 2px solid #ccc;
@@ -31,6 +39,7 @@
             margin-bottom: 10px;
             cursor: pointer;
         }
+
         .report-title:hover {
             text-decoration: underline;
         }
@@ -82,6 +91,17 @@
             padding: 20px;
             text-align: center;
         }
+        footer{
+            margin-top: 40px;
+            height: 100px;
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+        .footertext{
+            color: var(--accent_color);
+            font-size: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -108,8 +128,17 @@
         </ul>
     </div>
 
-    <div class="footer">
-        <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
+    <div class="container">
+        <a href="{% url 'a10app:main_page' %}" class="main-page-link">Return to Main Page</a>
     </div>
+
 </body>
+<footer>
+
+    <div class="footertext">
+      This system a school project. It is not monitored, and no real information should be submitted. Please search for similar software for your college/area, such as Just Report It at the University of Virginia, if you need to make a real report.
+
+    </div>
+
+</footer>
 </html>
