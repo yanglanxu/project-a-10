@@ -22,7 +22,7 @@ class ReportFormTests(TestCase):
         self.assertTrue("title" not in self.full_form.errors.keys())
 
     def test_empty_text(self):
-        self.assertTrue("text" not in self.empty_form.errors.keys())
+        self.assertTrue("text" in self.empty_form.errors.keys())
 
     def test_non_empty_text(self):
         self.assertTrue("text" not in self.full_form.errors.keys())
