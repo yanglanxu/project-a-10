@@ -120,7 +120,10 @@
     </style>
 </head>
 <body>
+
+
     <div class="container">
+        <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
         <h1>Report Form</h1>
         <form action="report" method="post" enctype='multipart/form-data'>
             {% csrf_token %}
@@ -155,7 +158,7 @@
             {% endif %}
             <input type="submit" value="Submit">
         </form>
-        <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
+
     </div>
 </body>
 <footer>

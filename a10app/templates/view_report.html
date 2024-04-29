@@ -124,6 +124,7 @@
 </head>
 <body>
     {% load auth_extras %}
+            <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
     <h1>{{ report.title }}</h1>
     <div class="report-section">
         {% if request.user|has_group:"site_admin" %}
@@ -213,9 +214,7 @@
         {% endif %}
     {% endfor %}
 
-    <div class="footer">
-            <a class="return-button" href="{% url 'a10app:main_page'%}">Return to Main Page</a>
-        </div>
+
 
 
 </body>

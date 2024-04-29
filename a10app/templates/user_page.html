@@ -91,6 +91,17 @@
             padding: 20px;
             text-align: center;
         }
+        .main-page-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .main-page-link:hover {
+            color: #0056b3;
+        }
         footer{
             height: 50px;
             position: fixed;
@@ -107,6 +118,7 @@
 </head>
 <body>
     <div class="container">
+        <a href="{% url 'a10app:main_page' %}" class="main-page-link">Return to Main Page</a>
         <h1>Your Reports</h1>
         <ul>
             {% for report in report_list %}
@@ -130,9 +142,7 @@
         </ul>
     </div>
 
-    <div class="container">
-        <a href="{% url 'a10app:main_page' %}" class="main-page-link">Return to Main Page</a>
-    </div>
+
 
 </body>
 <footer>
