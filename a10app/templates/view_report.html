@@ -67,45 +67,6 @@
             box-sizing: border-box;
         }
 
-        div.spoiler {
-            overflow: hidden;
-            position: relative;
-            margin: 0;
-            padding: 0;
-        }
-
-        div.spoiler img {
-            vertical-align: bottom;
-            filter: blur(20px);
-            transition: 0.3s;
-        }
-
-        .spoiler-button {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3rem;
-            line-height: 3rem;
-            width: 50%;
-            padding: 0 1rem;
-            font-size: 1rem;
-            margin: auto;
-            background-color: rgba(0,0,0,0.8);
-            color: #FFF;
-            text-align: center;
-            border-radius: 1rem;
-            cursor: pointer;
-        }
-
-        div.spoiler input:checked ~ img {
-            filter: none;
-        }
-
-        div.spoiler input:checked, div.spoiler input:checked ~ label {
-            display: none;
-        }
         footer{
             height: 50px;
             position: fixed;
@@ -169,11 +130,8 @@
         <p><strong>Images</strong></p>
         {% for image in images %}
         <div class="button_position">
-                <div class="spoiler">
-                    <input id="spoiler-check" type="checkbox" style="opacity:0" >
-                    <img src="{{image.file.url}}" alt="Your alt text, very important!" height="500px">
-                    <label for="spoiler-check" class="spoiler-button">Click to unblur image (may contain explicit content)</div>
-                </div>
+            <img src="{{image.file.url}}" alt="Image related to post" height="500px">
+
         </div>
         {% endfor %}
 
