@@ -117,6 +117,7 @@
                     </a>
                     <div class="report-username">Status: {{ report.status }}</div>
                     <div class="report-username">Location: {{ report.location }}</div>
+                    <div class="report-username">Urgency: {{ report.urgency }}</div>
                     <div class="report-text">{{ report.text }}</div>
                     <div class="button-position">
                         <a class="delete-button" href="{% url 'a10app:delete' report.id %}">Delete this?</a>

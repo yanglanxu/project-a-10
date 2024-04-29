@@ -249,9 +249,11 @@
                             {% if user|has_group:"site_admin" and report.flagged > 0%}
                             <div class="report-username"><font color="red">Flagged: {{ report.flagged }} times</font></div>
                             {% endif %}
-
                             <div class="report-username">Location: {{ report.location }}</div>
+                            <div class="report-username">Urgency: {{ report.urgency }}</div>
+                            {% if report.user.username %}
                             <div class="report-username">User: {{ report.user.username }}</div>
+                            {% endif %}
                             <div class="report-text">Details: {{ report.text }}</div>
 
                     </div>
