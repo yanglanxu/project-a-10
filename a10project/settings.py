@@ -40,6 +40,7 @@ else:
 SITE_ID = 2
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+SOCIALACCOUNT_LOGIN_ON_GET=True
 # Application definition
 
 INSTALLED_APPS = [

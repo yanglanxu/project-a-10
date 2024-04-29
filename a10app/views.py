@@ -11,6 +11,10 @@ from django.views.decorators.http import require_POST
 from django.db.models import Q
 from django.contrib import messages
 
+def opening_page(request):
+    return render(request, "opening_page.html")
+
+
 def main_page(request):
     reports = Report.objects.filter(status="Resolved")
     return render(request, "main_page.html", {"reports": reports})
@@ -22,7 +26,7 @@ def logout_view(request):
 class ReportFormView(FormView):
     form_class = ReportForm
     template_name = "make_report.html"  # Replace with your template.
-    success_url = "/"  # Replace with your URL or reverse().
+    success_url = "/main"  # Replace with your URL or reverse().
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -118,13 +122,15 @@ def flag(request, report_id):
 
 def search_reports(request):
     search_parameter = request.POST["search_parameters"]
+    search_parameter = search_parameter.strip()
+
 
     q_filter = Q()
     for field in ["title", "status", "text"]:
         q_filter |= Q(**{f"{field}__icontains": search_parameter})
 
-    reports = Report.objects.filter(q_filter)
-    return render(request, "main_page.html", {"reports": reports})
+    reports = Report.objects.filter(q_filter, status="Resolved")
+    return render(request, "main_page.html", {"reports": reports, "search_parameter": search_parameter})
 
 def update_comment(request):
     print("In update_comment")

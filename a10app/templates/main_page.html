@@ -4,106 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page - All Reports</title>
-
+<!--    <link rel="stylesheet" href="static/style.css">-->
     <style>
         body{
-            --accent_color: #1b4d89;
-            min-width: 1450px;
+            --accent_color_1: #90caee;
+            --accent_color_2: #126096;
+            --background-color: #FEFBF1;
+            --white-color: #FFFFFF;
+            width: 100%;
+            margin: 0;
+            padding: 0;
         }
         .header{
-            background-color: #f2f2f2;
-            padding: 10px;
+            background-color: var(--accent_color_1);
+            padding: 0px;
             margin-bottom: 50px;
         }
         .title{
-            color: var(--accent_color);
+            color: var(--accent_color_2);
             display: inline-block;
-            margin-right: 50%;
+            margin-left: 20px;
         }
         .report-box {
-            border: 2px solid #ccc;
+            border: 2px solid;
+            border-color: var(--accent_color_2);
             border-radius: 10px;
             padding: 20px;
             width: 40%;
             margin: auto;
             text-align: center;
-            background-color: #c8d8e4;
             position: relative;
             margin-bottom: 20px;
+            color: var(--accent_color_2);
+        }
+        .report-box:hover{
+            background-color: var(--accent_color_1);
         }
         .report-title {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
-            color: var(--accent_color);
+            text-decoration: none;
+            color: var(--accent_color_2);
         }
         .login_button{
-            background-color: var(--accent_color);
-            color: white;
-            border-radius: 10px;
+            background-color: var(--white-color);
+            color: var(--accent_color_2);
+            border-radius: 20px;
             border-color: var(--accent_color);
-            padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
+            padding: 10px 20px 10px 20px;
+            font-size: 18px;
+            margin-top: 20px;
+            margin-right: 20px;
             text-decoration: none;
+            float: right;
         }
-        .see_all_reports{
-            background-color: var(--accent_color);
-            color: white;
-            border-radius: 10px;
-            border-color: var(--accent_color);
-            padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
-            text-decoration: none;
-            margin-left: 10px;
+        .login_button:hover{
+            background-color: var(--accent_color_2);
+            color: var(--white-color);
         }
         .logout_button{
-            background-color: var(--accent_color);
-            color: white;
-            border-radius: 10px;
+            background-color: var(--white-color);
+            color: var(--accent_color_2);
+            border-radius: 20px;
             border-color: var(--accent_color);
-            padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
+            padding: 10px 20px 10px 20px;
+            font-size: 18px;
+            margin-top: 20px;
+            margin-right: 20px;
             text-decoration: none;
+            float: right;
+        }
+        .logout_button:hover{
+            background-color: var(--accent_color_2);
+            color: var(--white-color);
+        }
+        .welcome_name{
+            color: var(--accent_color_1);
+            font-weight: bold;
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 30px;
         }
         .view_reports{
-            background-color: var(--accent_color);
+            background-color: var(--accent_color_2);
             color: white;
-            border-radius: 10px;
-            border-color: var(--accent_color);
+            border-radius: 30px;
+            border-color: var(--accent_color_2);
+            border-style: solid;
+            border-width: 2px;
             padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 30px;
             text-decoration: none;
+            display: block;
+            text-align: center;
             margin-left: 10px;
         }
-        .report-text {
-            font-size: 16px;
-            color: var(--accent_color);
-        }
-        .report-username {
-            font-size: 16px;
-            color: var(--accent_color);
+        .view_reports:hover{
+            background-color: var(--white-color);
+            color: var(--accent_color_2);
         }
         .button_position{
-            position: relative;
+            position: absolute;
+            top: 30%;
             margin: auto;
-            width: 60%;
-            display: flex;
-            margin-bottom: 50px;
+            display: inline-block;
+            z-index: 2;
         }
         .create_report_button{
-            background-color: var(--accent_color);
+            background-color: var(--accent_color_2);
             color: white;
-            border-radius: 10px;
-            border-color: var(--accent_color);
+            border-radius: 30px;
+            border-color: var(--accent_color_2);
+            border-style: solid;
+            border-width: 2px;
             padding: 20px;
-            font-size: 15px;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 30px;
             text-decoration: none;
-            margin-right: 10px;
+            display: block;
+            text-align: center;
+            margin-left: 10px;
+        }
+        .create_report_button:hover{
+            background-color: var(--white-color);
+            color: var(--accent_color_2);
         }
         .search{
             background-color: var(--accent_color);
@@ -121,27 +147,34 @@
             display: inline-block;
             position: relative;
             resize: none;
-            border-radius: 10px;
+            border-radius: 20px;
             font-size: 15px;
             cursor: text;
-            margin-left: 10px;
+            height: 20px;
+            padding: 10px;
+            margin: auto;
+            margin-bottom: 30px;
         }
         .form{
             display: flex;
         }
         .reports_list{
-            color: var(--accent_color);
+            color: var(--accent_color_2);
             margin: auto;
             font-size: 25px;
             font-weight: bold;
             width: 25%;
             text-align: center;
             border-bottom: solid;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .no_report_text{
+            text-align: center;
         }
         footer{
-            margin-top: 40px;
             height: 100px;
+            position: fixed;
+            bottom: 0;
             background-color: #f2f2f2;
             padding: 10px;
         }
@@ -154,73 +187,80 @@
 </head>
 <body>
     <div class="header">
-        <h1 class="title">Hazing Reporting Website</h1>
+        <h1 class="title">HazeReport</h1>
         {% if not user.is_authenticated %}
         {% load socialaccount %}
         {% load auth_extras %}
 
-        <a class="login_button" href="{% provider_login_url 'google' %}?next=/">Login with Google</a>
+        <a class="login_button" href="{% provider_login_url 'google' %}?next=/main">Login with Google</a>
         {% endif %}
 
         {% if user.is_authenticated %}
-        <a class="logout_button" href="{% url 'logout'%}">You are signed in as {{user.username}}. Logout?</a>
+        <a class="logout_button" href="{% url 'logout'%}">Logout?</a>
         {% endif %}
 
+
+
+    </div>
+    {% if user.is_authenticated %}
 
         {% if request.user|has_group:"site_admin" %}
-        <p>You are an admin, {{user.username}}!</p>
+            <div class ="welcome_name"> Welcome admin {{user.username}}!</div>
+        {% else %}
+            <div class ="welcome_name"> Welcome {{user.username}}!</div>
         {% endif %}
-    </div>
+    {% endif %}
     <div class="button_position">
         <a class="create_report_button" href="{% url 'a10app:report'%}">Create New Report</a>
-        <div onkeypress="return submit(event)">
-            <form id="search" class="form" action="{% url 'a10app:search_reports'%}" method="post" onkeypress="return myFunction(event)">
-                {% csrf_token %}
-                <textarea id="search_parameters" name="search_parameters" class="search_field" placeholder="Search reports by title, status, or text"></textarea><br>
-                <input type="submit" class="search" value="Search">
-            </form>
-        </div>
-
-        <script>
-        function submit(e) {
-           if((e && e.keyCode == 13) || e == 0) {
-             document.forms.search.submit();
-             document.forms.search.reset();
-           }
-        }
-        </script>
-
         {% if user.is_authenticated %}
             <a class="view_reports" href="{% url 'a10app:user_page'%}">View reports you've made</a>
         {% endif %}
 
         {% if request.user|has_group:"site_admin" %}
-        <a class="see_all_reports" href="{% url 'a10app:list_reports'%}">See All Reports</a>
+        <a class="view_reports" href="{% url 'a10app:list_reports'%}">See All Reports</a>
         {% endif %}
     </div>
     <div class="reports_list">List of Current Reports</div>
 
+    <form id="search_form" class="form" action="{% url 'a10app:search_reports'%}" method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <textarea  onkeydown=handleKeyDown(event) id="search_parameters" name="search_parameters" class="search_field" placeholder={{search_parameter}}></textarea><br>
+    </form>
+
+    <script>
+
+        search_form = document.getElementById("search_form")
+        handleKeyDown = function(events) {
+            if (events.which === 13) {
+                if (!events.repeat) {
+                    search_form.submit()
+                }
+
+                events.preventDefault();
+            }
+        }
+    </script>
 
     {% if reports %}
         {% for report in reports %}
 
                     <div class="report-box">
-                        <a href="{% url 'a10app:view_report' report.id %}">
+                        <a class="report-title" href="{% url 'a10app:view_report' report.id %}"> {{ report.title }}</a>
                             {% if user|has_group:"site_admin" and report.flagged > 0%}
                             <div class="report-username"><font color="red">Flagged: {{ report.flagged }} times</font></div>
                             {% endif %}
-                            <div class="report-title">{{ report.title }}</div></a>
+
                             <div class="report-username">Location: {{ report.location }}</div>
                             <div class="report-username">User: {{ report.user.username }}</div>
                             <div class="report-text">Details: {{ report.text }}</div>
 
                     </div>
 
-            
+
 
         {% endfor %}
     {% else %}
-                <p>No reports have been made.</p>
+    <div class="no_report_text">No reports are resolved or no reports match the search criteria.</div>
     {% endif %}
 
 </body>
