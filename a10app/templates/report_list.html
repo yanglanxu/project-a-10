@@ -81,7 +81,7 @@
                 {% for report in reports %}
                     <li>
                         <a href="{% url 'a10app:view_report' report.id %}">
-                            <strong>{{ report.title }}</strong> | Location: {{ report.location }} | User: {{ report.user.username }} | Details: {{ report.text }} | {% if user|has_group:"site_admin" and report.flagged > 0%}<font color="red">Flagged: {{ report.flagged }} times</font>{% endif %}
+                            <strong>{{ report.title }}</strong> | Location: {{ report.location }} | Urgency: {{ report.urgency }} | User: {{ report.user.username }} | Details: {{ report.text }} | {% if user|has_group:"site_admin" and report.flagged > 0%}<font color="red">Flagged: {{ report.flagged }} times</font>{% endif %}
                         </a>
                     </li>
                 {% endfor %}
